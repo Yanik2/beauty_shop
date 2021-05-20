@@ -1,6 +1,4 @@
-package com.example.beauty_shop.entity.entities;
-
-import com.example.beauty_shop.entity.Role;
+package com.example.beauty_shop.entity;
 
 public class Account {
     private Long id;

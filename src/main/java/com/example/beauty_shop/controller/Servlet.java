@@ -24,7 +24,9 @@ public class Servlet extends HttpServlet {
         commands.put(LOGIN, new LoginCommand());
         commands.put(APPOINTMENT, new AppointmentCommand());
         commands.put(BOOK_TIME, new BookTimeCommand());
-        commands.put("homepage", new HomepageCommand());
+        commands.put(HOMEPAGE_COMMAND, new HomepageCommand());
+        commands.put(LOGOUT, new LogOutCommand());
+        commands.put(MARKASDONE, new MarkAsDoneCommand());
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.example.beauty_shop.service;
 
 import com.example.beauty_shop.dao.mysql.CatalogDaoImpl;
-import com.example.beauty_shop.entity.entities.Account;
+import com.example.beauty_shop.entity.Account;
 
 import java.util.*;
 
@@ -9,10 +9,10 @@ import static com.example.beauty_shop.constants.Constants.FILTER_BY_MASTER;
 import static com.example.beauty_shop.constants.Constants.SORT_BY_NAME;
 
 public class CatalogService {
-    private CatalogDaoImpl catalogDao = new CatalogDaoImpl();
+    private final CatalogDaoImpl catalogDao = new CatalogDaoImpl();
 
     public List<Account> getCatalog(String sortMethod, String filterMethod, String filter) {
-        List<Account> catalog = catalogDao.getCatalog();
+        List<Account> catalog = catalogDao.getClientCatalog();
         filter(catalog, filterMethod, filter);
         sort(catalog, sortMethod);
         return catalog;
@@ -37,7 +37,7 @@ public class CatalogService {
     }
 
     private void sortByName(List<Account> catalog) {
-        Collections.sort(catalog, (catalogItem, t1) -> {
+        catalog.sort((catalogItem, t1) -> {
             String name = catalogItem.getLogin();
             String name2 = t1.getLogin();
             return name.compareTo(name2);
@@ -45,11 +45,7 @@ public class CatalogService {
     }
 
     private void sortByRate(List<Account> catalog) {
-        Collections.sort(catalog, (catalogItem, t1) -> {
-            if (t1.getRate() > t1.getRate()) return 1;
-            if (t1.getRate() < t1.getRate()) return -1;
-            return 0;
-        });
+        catalog.sort(Comparator.comparingDouble(Account::getRate));
     }
 
     private void filterByMaster(Iterator<Account> it, String filter) {

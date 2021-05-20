@@ -3,9 +3,9 @@ package com.example.beauty_shop.dao.mysql;
 import com.example.beauty_shop.dao.AppointmentDao;
 import com.example.beauty_shop.dao.DBManager;
 import com.example.beauty_shop.entity.Role;
-import com.example.beauty_shop.entity.entities.Account;
-import com.example.beauty_shop.entity.entities.Appointment;
-import com.example.beauty_shop.entity.entities.Service;
+import com.example.beauty_shop.entity.Account;
+import com.example.beauty_shop.entity.Appointment;
+import com.example.beauty_shop.entity.Service;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,17 +19,15 @@ public class AppointmentDaoImpl implements AppointmentDao {
 
     @Override
     public List<Appointment> getAppointments(String master, String date) {
-        String sql = "SELECT * FROM appointment JOIN account ON master_id = account.id " +
+        String selectAppointments = "SELECT * FROM appointment JOIN account ON master_id = account.id " +
         "WHERE account.login = ? AND date = ?;";
         Connection con = null;
         List<Appointment> appointments = new ArrayList<>();
         try {
             con = DBManager.getConnection();
-            PreparedStatement st = con.prepareStatement(sql);
+            PreparedStatement st = con.prepareStatement(selectAppointments);
             st.setString(1, master);
             st.setString(2, date);
-//            ResultSet set = st.executeQuery("SELECT * FROM appointment JOIN account ON master_id = account.id " +
-//                    "WHERE account.login = '" + master + "' AND date = '" + date + "';");
             ResultSet set = st.executeQuery();
             while(set.next()) {
                 Appointment appointment = new Appointment();
@@ -72,17 +70,14 @@ public class AppointmentDaoImpl implements AppointmentDao {
 
     @Override
     public Account getMaster(String name) {
-        String sql = "SELECT * FROM account JOIN service ON service_id = service_id = service.id " +
+        String selectAccount = "SELECT * FROM account JOIN service ON service_id = service_id = service.id " +
                 "WHERE login = ?;";
         Connection con = null;
         Account master = null;
         try {
             con = DBManager.getConnection();
-            PreparedStatement st = con.prepareStatement(sql);
+            PreparedStatement st = con.prepareStatement(selectAccount);
             st.setString(1, name);
-//            ResultSet set = st.executeQuery("SELECT * FROM account " +
-//                    "JOIN service ON service_id = service.id " +
-//                    "where login = '" + name + "';");
             ResultSet set = st.executeQuery();
             while(set.next()) {
                 master = new Account();
@@ -103,5 +98,26 @@ public class AppointmentDaoImpl implements AppointmentDao {
             DBManager.closeConnection(con);
         }
         return master;
+    }
+
+    @Override
+    public boolean markAsDoneAppointment(Long masterId, Long timeslotId, String date) {
+        String updateAppointment = "UPDATE appointment SET done = true " +
+                "WHERE master_id = ? AND timeslot_id = ? AND date = ?";
+        Connection con = null;
+        int rowsUpdated = 0;
+        try {
+            con = DBManager.getConnection();
+            PreparedStatement updateStatement = con.prepareStatement(updateAppointment);
+            updateStatement.setLong(1, masterId);
+            updateStatement.setLong(2, timeslotId);
+            updateStatement.setString(3, date);
+            rowsUpdated = updateStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            DBManager.closeConnection(con);
+        }
+        return rowsUpdated == 1;
     }
 }

@@ -1,6 +1,6 @@
 package com.example.beauty_shop.controller.filter;
 
-import com.example.beauty_shop.entity.entities.Account;
+import com.example.beauty_shop.entity.Account;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

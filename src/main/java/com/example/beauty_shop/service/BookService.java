@@ -1,10 +1,10 @@
 package com.example.beauty_shop.service;
 
 import com.example.beauty_shop.dao.mysql.BookDaoImpl;
-import com.example.beauty_shop.entity.entities.Account;
+import com.example.beauty_shop.entity.Account;
 
 public class BookService {
-    private BookDaoImpl bookDao = new BookDaoImpl();
+    private final BookDaoImpl bookDao = new BookDaoImpl();
 
     public boolean bookTime(Account master, Account client, String time, String date) {
         Long master_id = master.getId();

@@ -9,6 +9,7 @@ public class Constants {
     public static final String ACCESS_FAILED_JSP = "/errors/accessfailed.jsp";
     public static final String CLIENT_TIMESLOT_JSP = "clienttimeslot.jsp";
     public static final String CLIENT_HOME = "clienthome.jsp";
+    public static final String MASTER_HOME = "masterhome.jsp";
 
     public static final String ID = "id";
     public static final String RATE = "rate";
@@ -20,8 +21,11 @@ public class Constants {
     public static final String SERVICE_CATALOG = "getServiceCatalog";
     public static final String MAIN = "main";
     public static final String LOGIN = "login";
+    public static final String LOGOUT = "logout";
     public static final String APPOINTMENT = "appointment";
     public static final String BOOK_TIME = "book_time";
+    public static final String HOMEPAGE_COMMAND = "homepage";
+    public static final String MARKASDONE = "markAsDone";
 
     public static final String CATALOG = "catalog";
     public static final String PAGE = "page";
@@ -38,15 +42,19 @@ public class Constants {
     public static final String TIME = "time";
     public static final String TIMESLOT = "timeslot";
     public static final String APPOINTMENT_DATE = "appointment_date";
-
     public static final String TIMESLOTS = "timeslots";
 
+    public static final String HIDEDATE = "hidedate";
+    public static final String SHOWLINK = "showlink";
     public static final String MESSAGE = "message";
     public static final String MESSAGE_SUCCESS = "Your appointment committed! You can make another one!";
     public static final String MESSAGE_FAILURE = "Something wrong, try again!";
+    public static final String MARK_SUCCESS = "Appointment mark as Done";
+    public static final String MART_FAILURE = "Something went wrong";
     public static final String ERR_MESSAGE = "errorMessage";
     public static final String ERROR_MESSAGE = "Login or password is incorrect";
     public static final String TIMESLOT_MESSAGE = "Looks like there is no available timeslots on this date";
+    public static final String CORRECT_DATE = "Please, choose a correct date";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String SORT_METHOD = "sortMethod";
@@ -54,5 +62,6 @@ public class Constants {
     public static final String FILTER_BY_MASTER = "filterByMaster";
     public static final String FILTER_METHOD = "filterMethod";
     public static final String FILTER = "filter";
+    public static final String AVAILABILITY = "availability";
 
 }

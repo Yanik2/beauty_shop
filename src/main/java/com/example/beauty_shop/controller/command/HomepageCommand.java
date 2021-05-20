@@ -1,8 +1,7 @@
 package com.example.beauty_shop.controller.command;
 
-import com.example.beauty_shop.entity.entities.Account;
+import com.example.beauty_shop.entity.Account;
 import com.example.beauty_shop.service.HomepageService;
-import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -13,15 +12,17 @@ import java.util.Map;
 import static com.example.beauty_shop.constants.Constants.*;
 
 public class HomepageCommand implements Command {
-    private HomepageService homepageService = new HomepageService();
+    private final HomepageService homepageService = new HomepageService();
+
     @Override
     public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
-        Account user = (Account) request.getSession().getAttribute(USER);
-        List<Account> catalog = homepageService.getPageFill(user);
+        Account currentUser = (Account) request.getSession().getAttribute(USER);
+        String userRole = currentUser.getRole().toString().toLowerCase();
+        List<Account> catalog = (List<Account>) homepageService.getPageFill(currentUser).get(CATALOG);
         Map<String, Object> map = new HashMap<>();
-        map.put(PAGE, HOMEPAGE + CLIENT_HOME);
+        map.put(PAGE, HOMEPAGE + userRole + H0ME_JSP);
         map.put(CATALOG, catalog);
-//        request.setAttribute("hidedate", false);
+        request.getSession().setAttribute(HIDEDATE, false);
         return map;
     }
 }

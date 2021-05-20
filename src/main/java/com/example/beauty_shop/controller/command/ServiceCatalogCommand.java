@@ -1,6 +1,6 @@
 package com.example.beauty_shop.controller.command;
 
-import com.example.beauty_shop.entity.entities.Account;
+import com.example.beauty_shop.entity.Account;
 import com.example.beauty_shop.service.CatalogService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,7 +12,7 @@ import java.util.Map;
 import static com.example.beauty_shop.constants.Constants.*;
 
 public class ServiceCatalogCommand implements Command {
-    private CatalogService catalogService = new CatalogService();
+    private final CatalogService catalogService = new CatalogService();
 
     @Override
     public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {

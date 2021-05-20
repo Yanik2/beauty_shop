@@ -1,18 +1,16 @@
 package com.example.beauty_shop.service;
 
-import com.example.beauty_shop.dao.mysql.AccountDaoImpl;
 import com.example.beauty_shop.dao.mysql.AppointmentDaoImpl;
-import com.example.beauty_shop.entity.entities.Account;
-import com.example.beauty_shop.entity.entities.Appointment;
+import com.example.beauty_shop.entity.Account;
+import com.example.beauty_shop.entity.Appointment;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import static com.example.beauty_shop.constants.Constants.*;
 
 public class AppointmentService {
-    private AppointmentDaoImpl appointmentDao = new AppointmentDaoImpl();
+    private final AppointmentDaoImpl appointmentDao = new AppointmentDaoImpl();
 
     public Map<String, Object> getAvailableTime(String master, String date) {
         List<Appointment> appointments = appointmentDao.getAppointments(master, date);
@@ -25,5 +23,9 @@ public class AppointmentService {
         map.put(MASTER, masterAccount);
         map.put(TIMESLOTS, timeslots);
         return map;
+    }
+
+    public boolean makrAsDone(Long masterId, Long timeslotId, String date) {
+        return appointmentDao.markAsDoneAppointment(masterId, timeslotId, date);
     }
 }

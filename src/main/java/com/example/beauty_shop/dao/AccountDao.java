@@ -1,6 +1,6 @@
 package com.example.beauty_shop.dao;
 
-import com.example.beauty_shop.entity.entities.Account;
+import com.example.beauty_shop.entity.Account;
 
 import java.util.Optional;
 

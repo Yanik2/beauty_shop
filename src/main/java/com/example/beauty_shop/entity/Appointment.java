@@ -1,4 +1,4 @@
-package com.example.beauty_shop.entity.entities;
+package com.example.beauty_shop.entity;
 
 public class Appointment {
     private Long master_id;
