@@ -22,13 +22,13 @@ public class MarkAsDoneCommand implements Command {
         String date = LocalDate.now().toString();
         Account master = (Account) request.getSession().getAttribute(USER);
         Long masterId = master.getId();
-        Boolean markSuccess = appointmentService.makrAsDone(masterId, timeslotId, date);
+        Boolean markSuccess = appointmentService.markAsDone(masterId, timeslotId, date);
         Map<String, Object> map = new HashMap<>();
         map.put(PAGE, HOMEPAGE + MASTER_HOME);
         if(markSuccess) {
             map.put(MESSAGE, MARK_SUCCESS);
         } else {
-            map.put(MESSAGE, MART_FAILURE);
+            map.put(MESSAGE, MARK_FAILURE);
         }
         return map;
     }

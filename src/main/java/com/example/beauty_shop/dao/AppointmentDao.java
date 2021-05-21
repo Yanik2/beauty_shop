@@ -10,5 +10,8 @@ public interface AppointmentDao {
     List<Appointment> getAppointments(String master, String date);
     Map<Long, String> getTimeslots();
     Account getMaster(String name);
-    boolean markAsDoneAppointment(Long master_id, Long timeslot_id, String date);
+    boolean markAsDoneAppointment(Long masterId, Long timeslotId, String date);
+    boolean updateAppointment(Long masterId, Long clientId, Long timeslotId, String date, String action);
+    boolean changeTimeslot(Long masterId, Long clientId, Long timeslotId, String date, String newTimeslot);
+
 }

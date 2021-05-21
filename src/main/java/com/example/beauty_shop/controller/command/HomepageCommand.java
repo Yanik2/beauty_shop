@@ -17,11 +17,11 @@ public class HomepageCommand implements Command {
     @Override
     public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
         Account currentUser = (Account) request.getSession().getAttribute(USER);
-        String userRole = currentUser.getRole().toString().toLowerCase();
-        List<Account> catalog = (List<Account>) homepageService.getPageFill(currentUser).get(CATALOG);
+        Map<String, Object> catalog = homepageService.getPageFill(currentUser);
         Map<String, Object> map = new HashMap<>();
+        String userRole = currentUser.getRole().toString().toLowerCase();
         map.put(PAGE, HOMEPAGE + userRole + H0ME_JSP);
-        map.put(CATALOG, catalog);
+        map.put(CATALOG, catalog.get(CATALOG));
         request.getSession().setAttribute(HIDEDATE, false);
         return map;
     }

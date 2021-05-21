@@ -1,11 +1,8 @@
 package com.example.beauty_shop.dao.mysql;
 
-import com.example.beauty_shop.dao.CatalogDao;
+import com.example.beauty_shop.dao.TableDao;
 import com.example.beauty_shop.dao.DBManager;
-import com.example.beauty_shop.entity.MasterSlotItem;
-import com.example.beauty_shop.entity.Account;
-import com.example.beauty_shop.entity.Appointment;
-import com.example.beauty_shop.entity.Service;
+import com.example.beauty_shop.entity.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,10 +12,10 @@ import java.util.Map;
 
 import static com.example.beauty_shop.constants.Constants.*;
 
-public class CatalogDaoImpl implements CatalogDao {
+public class TableDaoImpl implements TableDao {
 
     @Override
-    public List<Account> getClientCatalog() {
+    public List<Account> getClientTable() {
         Connection con = null;
         List<Account> catalog = new ArrayList<>();
         try {
@@ -46,7 +43,7 @@ public class CatalogDaoImpl implements CatalogDao {
     }
 
     @Override
-    public Map<String, List> getMasterCatalog(Account account, String date) {
+    public Map<String, List> getMasterTable(Account account, String date) {
         String updateTimeslots = "UPDATE account_has_timeslot JOIN(SELECT timeslot_id AS v1 from appointment where master_id = ?" +
                 " and date = ?) A ON account_has_timeslot.timeslot_id = A.v1 AND account_has_timeslot.account_id = ?" +
                 " SET account_has_timeslot.availability = 0;";
@@ -79,6 +76,45 @@ public class CatalogDaoImpl implements CatalogDao {
              DBManager.closeConnection(con);
          }
          return map;
+    }
+
+    @Override
+    public List<AdminTableItem> getAdminTable() {
+        Connection con = null;
+        List<AdminTableItem> adminTable = new ArrayList<>();
+        try {
+            con = DBManager.getConnection();
+            Statement st = con.createStatement();
+            ResultSet set = st.executeQuery("SELECT A.id, account.id, timeslot.id, A.login, account.login, " +
+                    "service.name, timeslot.time, date, paid from appointment " +
+                    "JOIN service on service_id = service.id " +
+                    "JOIN(SELECT id, login from account) A on A.id = master_id " +
+                    "JOIN timeslot on timeslot_id = timeslot.id " +
+                    "JOIN account on account.id = client_id " +
+                    "ORDER BY date, time;");
+            initList(set, adminTable);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            DBManager.closeConnection(con);
+        }
+        return adminTable;
+    }
+
+    private void initList(ResultSet set, List<AdminTableItem> adminTable) throws SQLException {
+        while(set.next()) {
+            AdminTableItem item = new AdminTableItem();
+            item.setMasterId(set.getLong(SQL_A_ID));
+            item.setClientId(set.getLong(SQL_ACCOUNT_ID));
+            item.setTimeslotId(set.getLong(SQL_TIMESLOT_ID));
+            item.setMasterName(set.getString(SQL_A_LOGIN));
+            item.setClientName(set.getString(SQL_ACCOUNT_LOGIN));
+            item.setServiceName(set.getString(SQL_SERVICE_NAME));
+            item.setTime(set.getString(SQL_TIMESLOT_TIME));
+            item.setDate(set.getString(DATE));
+            item.setPaid(set.getBoolean(PAID));
+            adminTable.add(item);
+        }
     }
 
     private List<MasterSlotItem> getMasterSlots(PreparedStatement st, Account account) throws SQLException {
@@ -127,4 +163,6 @@ public class CatalogDaoImpl implements CatalogDao {
             throwables.printStackTrace();
         }
     }
+
+
 }

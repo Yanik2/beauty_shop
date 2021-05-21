@@ -25,7 +25,15 @@ public class AppointmentService {
         return map;
     }
 
-    public boolean makrAsDone(Long masterId, Long timeslotId, String date) {
+    public boolean markAsDone(Long masterId, Long timeslotId, String date) {
         return appointmentDao.markAsDoneAppointment(masterId, timeslotId, date);
+    }
+
+    public boolean updateAppointment(Long masterId, Long clientId, Long timeslotId, String date, String action) {
+        return appointmentDao.updateAppointment(masterId, clientId, timeslotId, date, action);
+    }
+
+    public boolean changeTimeslot(Long masterId, Long clientId, Long timeslotId, String date, String newTimeslot) {
+        return appointmentDao.changeTimeslot(masterId, clientId, timeslotId, date, newTimeslot);
     }
 }

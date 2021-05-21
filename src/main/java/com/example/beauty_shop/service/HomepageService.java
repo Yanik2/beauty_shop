@@ -1,7 +1,8 @@
 package com.example.beauty_shop.service;
 
-import com.example.beauty_shop.dao.mysql.CatalogDaoImpl;
+import com.example.beauty_shop.dao.mysql.TableDaoImpl;
 import com.example.beauty_shop.entity.Account;
+import com.example.beauty_shop.entity.AdminTableItem;
 import com.example.beauty_shop.entity.Appointment;
 import com.example.beauty_shop.entity.MasterSlotItem;
 
@@ -9,24 +10,26 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.example.beauty_shop.constants.Constants.APPOINTMENT;
 import static com.example.beauty_shop.constants.Constants.CATALOG;
 
 public class HomepageService {
-    private final CatalogDaoImpl catalogDao = new CatalogDaoImpl();
+    private final TableDaoImpl tableDao = new TableDaoImpl();
 
     public Map<String, Object> getPageFill(Account currentUser) {
         Map<String, Object> map = new HashMap<>();
         switch (currentUser.getRole()) {
             case CLIENT:
-                map.put(CATALOG, catalogDao.getClientCatalog());
+                map.put(CATALOG, tableDao.getClientTable());
                 break;
             case MASTER:
-                List<MasterSlotItem> masterCatalog = makeMasterSlots(catalogDao.getMasterCatalog(currentUser, LocalDate.now().toString()));
+                List<MasterSlotItem> masterCatalog = makeMasterSlots(tableDao.getMasterTable(currentUser, LocalDate.now().toString()));
                 map.put(CATALOG, masterCatalog);
                 break;
             case ADMIN:
+                map.put(CATALOG, tableDao.getAdminTable());
                 break;
         }
         return map;
@@ -43,5 +46,10 @@ public class HomepageService {
             item.setDone(done);
         }
         return catalog;
+    }
+
+    public List<AdminTableItem> filterByDate(String date) {
+        List<AdminTableItem> adminTable = tableDao.getAdminTable();
+        return adminTable.stream().filter(item -> item.getDate().equals(date)).collect(Collectors.toList());
     }
 }

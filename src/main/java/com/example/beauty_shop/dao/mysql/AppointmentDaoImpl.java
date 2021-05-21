@@ -120,4 +120,78 @@ public class AppointmentDaoImpl implements AppointmentDao {
         }
         return rowsUpdated == 1;
     }
+
+    @Override
+    public boolean updateAppointment(Long masterId, Long clientId, Long timeslotId, String date, String action) {
+        String query = getQuery(action);
+        Connection con = null;
+        int rowsUpdated = 0;
+        try {
+            con = DBManager.getConnection();
+            PreparedStatement updateSt = con.prepareStatement(query);
+            initStatement(updateSt, masterId, clientId, timeslotId, date);
+            rowsUpdated = updateSt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            DBManager.closeConnection(con);
+        }
+        return rowsUpdated == 1;
+    }
+
+    @Override
+    public boolean changeTimeslot(Long masterId, Long clientId, Long timeslotId, String date, String newTimeslot) {
+        String getIdQuery = "SELECT id from timeslot WHERE time = ?";
+        String updateQuery = "UPDATE appointment SET timeslot_id = ? " +
+                "WHERE master_id = ? AND client_id = ? AND timeslot_id = ? AND date = ?";
+        Connection con = null;
+        int rowsUpdated = 0;
+        try {
+            con = DBManager.getConnection();
+            PreparedStatement selectSt = con.prepareStatement(getIdQuery);
+            PreparedStatement updateSt = con.prepareStatement(updateQuery);
+            selectSt.setString(1, newTimeslot);
+            Long newId = getTimeslotId(selectSt);
+            initUpdateSt(updateSt, masterId, clientId, timeslotId, date, newId);
+            rowsUpdated = updateSt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            DBManager.closeConnection(con);
+        }
+        return rowsUpdated == 1;
+    }
+
+    private Long getTimeslotId(PreparedStatement st) throws SQLException {
+        ResultSet set = st.executeQuery();
+        set.next();
+        return set.getLong(ID);
+    }
+
+    private String getQuery(String action) {
+        if(action.equals("confirm")) {
+            return "UPDATE appointment SET paid = true " +
+                    "WHERE master_id = ? AND client_id = ? " +
+                    "AND timeslot_id = ? AND date = ?;";
+        }
+
+        return "DELETE FROM appointment " +
+                    "WHERE master_id = ? AND client_id = ? " +
+                    "AND timeslot_id = ? AND date = ?;";
+    }
+
+    private void initUpdateSt(PreparedStatement st, Long masterId, Long clientId, Long timeslotId, String date, Long newTimeslotId) throws SQLException {
+        st.setLong(1, newTimeslotId);
+        st.setLong(2, masterId);
+        st.setLong(3, clientId);
+        st.setLong(4, timeslotId);
+        st.setString(5, date);
+    }
+
+    private void initStatement(PreparedStatement st, Long masterId, Long clientId, Long timeslotId, String date) throws SQLException {
+        st.setLong(1, masterId);
+        st.setLong(2, clientId);
+        st.setLong(3, timeslotId);
+        st.setString(4, date);
+    }
 }

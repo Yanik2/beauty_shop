@@ -22,7 +22,6 @@ public class LoginCommand implements Command {
         String password = request.getParameter(PASSWORD);
         Map<String, Object> loginMap = loginService.login(username, password);
         Optional<Account> account =  (Optional<Account>) loginMap.get(USER);
-
         if(account.isPresent()) {
             initSession(request, map, loginMap, account.get());
         } else {

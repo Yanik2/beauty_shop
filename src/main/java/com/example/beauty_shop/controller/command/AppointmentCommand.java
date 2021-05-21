@@ -1,5 +1,6 @@
 package com.example.beauty_shop.controller.command;
 
+import com.example.beauty_shop.controller.validator.DateValidator;
 import com.example.beauty_shop.entity.Account;
 import com.example.beauty_shop.service.AppointmentService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,9 +22,8 @@ public class AppointmentCommand implements Command {
         request.getSession().setAttribute(HIDEDATE, true);
         String master = request.getParameter(MASTER);
         String date = request.getParameter(APPOINTMENT_DATE);
-        String currentDate = LocalDate.now().toString();
         Map<String, Object> map = new HashMap<>();
-        if(currentDate.compareTo(date) > 0) {
+        if(!DateValidator.validate(date)) {
             map.put(MESSAGE, CORRECT_DATE);
             map.put(PAGE, HOMEPAGE + CLIENT_HOME);
             return map;

@@ -8,7 +8,7 @@
 <body>
 <jsp:include page="common/header.jsp"/>
 <br/>
-<div style="display: flex; justify-content: space-between; margin: 0px 20px;">
+<div style="display: flex; justify-content: space-between; margin: 0 20px;">
     <div>
         <h2>Service Catalog</h2>
         <form action="/Servlet" method="post">
