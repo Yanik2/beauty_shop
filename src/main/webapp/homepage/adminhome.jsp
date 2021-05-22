@@ -1,3 +1,4 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: y
@@ -5,36 +6,40 @@
   Time: 22:22
   To change this template use File | Settings | File Templates.
 --%>
+<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
+<%--<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="resources"/>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
-<h1>Admin Home</h1>
 <jsp:include page="/common/header.jsp"/>
 <c:choose>
     <c:when test="${showlink}">
-        <a href="/Servlet?command=homepage">Home page</a>
+        <a href="/Servlet?command=homepage"><fmt:message key="homePage"/></a>
     </c:when>
     <c:otherwise>
         <form action="/Servlet" method="post">
             <input type="date" name="date"/>
-            <button type="submit" name="command" value="filterByDate">Filter by date</button>
+            <button type="submit" name="command" value="filterByDate"><fmt:message key="filterByDate"/></button>
         </form>
     </c:otherwise>
 </c:choose>
 <table border="1">
     <tr>
-        <th>Master</th>
-        <th>Client</th>
-        <th>Service</th>
-        <th>Time</th>
-        <th>Date</th>
-        <th>Change time</th>
-        <th>Cancel</th>
-        <th>Confirm Payment</th>
+        <th><fmt:message key="master"/> </th>
+        <th><fmt:message key="client"/></th>
+        <th><fmt:message key="service"/></th>
+        <th><fmt:message key="time"/></th>
+        <th><fmt:message key="date"/></th>
+        <th><fmt:message key="changeTime"/></th>
+        <th><fmt:message key="cancel"/></th>
+        <th><fmt:message key="confirmPayment"/></th>
     </tr>
     <c:forEach var="item" items="${catalog}">
         <tr>
@@ -44,15 +49,15 @@
                 <td>${item.serviceName}</td>
                 <td>${item.time}</td>
                 <td>${item.date}</td>
-                <td><button type="submit" name="action" value="changeTime">Change time</button></td>
-                <td><button type="submit" name="action" value="cancel">Cancel</button></td>
+                <td><button type="submit" name="action" value="changeTime"><fmt:message key="changeTime"/></button></td>
+                <td><button type="submit" name="action" value="cancel"><fmt:message key="cancel"/></button></td>
                 <td>
                     <c:choose>
                         <c:when test="${item.paid}">
                             Paid
                         </c:when>
                         <c:otherwise>
-                            <button type="submit" name="action" value="confirm">Confirm</button>
+                            <button type="submit" name="action" value="confirm"><fmt:message key="confirm"/></button>
                         </c:otherwise>
                     </c:choose>
                 </td>
@@ -66,7 +71,7 @@
         </tr>
     </c:forEach>
 </table>
-<h2>${message}</h2>
+<h2><fmt:message key="${message}"/></h2>
 <jsp:include page="/common/footer.jsp"/>
 </body>
 </html>

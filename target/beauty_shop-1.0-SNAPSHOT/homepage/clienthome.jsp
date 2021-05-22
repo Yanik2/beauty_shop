@@ -7,20 +7,22 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="resources"/>
 <html>
 <head>
-    <title>Title</title>
+    <title><fmt:message key="client"/></title>
 </head>
 <body>
-<h1>Client home</h1>
 <jsp:include page="/common/header.jsp"/>
 <form action="/Servlet" method="post">
     <c:choose>
         <c:when test="${hidedate}">
-            <a href="/Servlet?command=homepage">Home page</a>
+            <a href="/Servlet?command=homepage"><fmt:message key="homePage"/></a>
         </c:when>
         <c:otherwise>
-            Appointment date: <input type="date" name="appointment_date"/><br><br>
+           <fmt:message key="appointmentDate"/>: <input type="date" name="appointment_date"/><br><br>
         </c:otherwise>
     </c:choose>
 
@@ -32,14 +34,14 @@
                 <th>${item.service.description}</th>
                 <th>${item.rate}</th>
                 <th>
-                    <button type="submit" name="master" value="${item.login}">Make an appointment</button>
+                    <button type="submit" name="master" value="${item.login}"><fmt:message key="makeAnAppointment"/></button>
                     <input type="hidden" name="command" value="appointment"/>
                 </th>
             </tr>
         </c:forEach>
     </table>
 </form>
-<h2>${message}</h2>
+<h2><fmt:message key="${message}"/></h2>
 
 <jsp:include page="/common/footer.jsp"/>
 </body>

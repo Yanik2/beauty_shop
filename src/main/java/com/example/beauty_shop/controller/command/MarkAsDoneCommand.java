@@ -5,6 +5,8 @@ import com.example.beauty_shop.service.AppointmentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import javax.naming.NamingException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +17,7 @@ public class MarkAsDoneCommand implements Command {
     private final AppointmentService appointmentService = new AppointmentService();
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
         request.setAttribute(SHOWLINK, true);
         String timeslot = request.getParameter("timeslot_id");
         Long timeslotId = Long.parseLong(timeslot);

@@ -5,6 +5,8 @@ import com.example.beauty_shop.service.CatalogService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import javax.naming.NamingException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +17,7 @@ public class ServiceCatalogCommand implements Command {
     private final CatalogService catalogService = new CatalogService();
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
         String sortMethod = request.getParameter(SORT_METHOD);
         String filterMethod = request.getParameter(FILTER_METHOD);
         String filter = request.getParameter(FILTER);

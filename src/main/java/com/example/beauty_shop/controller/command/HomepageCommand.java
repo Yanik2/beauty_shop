@@ -5,6 +5,8 @@ import com.example.beauty_shop.service.HomepageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import javax.naming.NamingException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +17,7 @@ public class HomepageCommand implements Command {
     private final HomepageService homepageService = new HomepageService();
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
         Account currentUser = (Account) request.getSession().getAttribute(USER);
         Map<String, Object> catalog = homepageService.getPageFill(currentUser);
         Map<String, Object> map = new HashMap<>();

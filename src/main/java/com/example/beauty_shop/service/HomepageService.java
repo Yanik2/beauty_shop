@@ -6,6 +6,8 @@ import com.example.beauty_shop.entity.AdminTableItem;
 import com.example.beauty_shop.entity.Appointment;
 import com.example.beauty_shop.entity.MasterSlotItem;
 
+import javax.naming.NamingException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +20,7 @@ import static com.example.beauty_shop.constants.Constants.CATALOG;
 public class HomepageService {
     private final TableDaoImpl tableDao = new TableDaoImpl();
 
-    public Map<String, Object> getPageFill(Account currentUser) {
+    public Map<String, Object> getPageFill(Account currentUser) throws SQLException, NamingException {
         Map<String, Object> map = new HashMap<>();
         switch (currentUser.getRole()) {
             case CLIENT:
@@ -48,7 +50,7 @@ public class HomepageService {
         return catalog;
     }
 
-    public List<AdminTableItem> filterByDate(String date) {
+    public List<AdminTableItem> filterByDate(String date) throws SQLException, NamingException {
         List<AdminTableItem> adminTable = tableDao.getAdminTable();
         return adminTable.stream().filter(item -> item.getDate().equals(date)).collect(Collectors.toList());
     }

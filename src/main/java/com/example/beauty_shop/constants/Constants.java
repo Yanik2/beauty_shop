@@ -33,7 +33,9 @@ public class Constants {
     public static final String ACTION = "action";
     public static final String UPDATE = "update";
     public static final String CHANGE_TIME_SLOT = "changeTimeslot";
+    public static final String CHANGE_LANGUAGE = "changeLanguage";
 
+    public static final String LANGUAGE = "language";
     public static final String CATALOG = "catalog";
     public static final String PAGE = "page";
     public static final String USER = "user";
@@ -59,16 +61,16 @@ public class Constants {
     public static final String HIDEDATE = "hidedate";
     public static final String SHOWLINK = "showlink";
     public static final String MESSAGE = "message";
-    public static final String MESSAGE_SUCCESS = "Your appointment committed! You can make another one!";
-    public static final String MESSAGE_FAILURE = "Something wrong, try again!";
-    public static final String MARK_SUCCESS = "Appointment mark as Done";
-    public static final String MARK_FAILURE = "Something went wrong";
-    public static final String NO_APPOINTMENTS = "There are no appointments at this date";
+    public static final String MESSAGE_SUCCESS = "messageSuccess";
+    public static final String MESSAGE_FAILURE = "messageFailure";
+    public static final String MARK_SUCCESS = "markSuccess";
+    public static final String MARK_FAILURE = "markFailure";
+    public static final String NO_APPOINTMENTS = "noAppointments";
     public static final String ERR_MESSAGE = "errorMessage";
-    public static final String ERROR_MESSAGE = "Login or password is incorrect";
-    public static final String TIMESLOT_MESSAGE = "Looks like there is no available timeslots on this date";
-    public static final String CORRECT_DATE = "Please, choose a correct date";
-    public static final String UPDATE_SUCCESS = "Appointment updated successfully";
+    public static final String ERROR_MESSAGE = "errorMessage";
+    public static final String TIMESLOT_MESSAGE = "timeslotMessage";
+    public static final String CORRECT_DATE = "correctDate";
+    public static final String UPDATE_SUCCESS = "updateSuccess";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String SORT_METHOD = "sortMethod";
@@ -77,6 +79,7 @@ public class Constants {
     public static final String FILTER_METHOD = "filterMethod";
     public static final String FILTER = "filter";
     public static final String AVAILABILITY = "availability";
+    public static final String NEWTIMESLOT = "newTimeslot";
 
     public static final String SQL_A_ID = "A.id";
     public static final String SQL_ACCOUNT_ID = "account.id";

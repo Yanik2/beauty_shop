@@ -4,6 +4,8 @@ import com.example.beauty_shop.service.AppointmentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import javax.naming.NamingException;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +16,7 @@ public class UpdateAppointmentCommand implements Command {
     private final AppointmentService appointmentService = new AppointmentService();
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
         Long masterId = Long.parseLong(request.getParameter(MASTERID));
         Long clientId = Long.parseLong(request.getParameter(CLIENTID));
         Long timeslotId = Long.parseLong(request.getParameter(TIMESLOTID));

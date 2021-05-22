@@ -1,5 +1,9 @@
 package com.example.beauty_shop.dao;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -8,6 +12,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DBManager {
+    private static final Logger logger = LogManager.getLogger();
+
     private static DataSource ds;
 
     private DBManager() {
@@ -20,18 +26,20 @@ public class DBManager {
                 Context context = new InitialContext();
                 ds = (DataSource) context.lookup("java:comp/env/jdbc/yan");
             } catch (NamingException e) {
-                e.printStackTrace();
+                logger.log(Level.ERROR, "DBManager: ", e);
+                throw new RuntimeException(e.getMessage());
             }
         }
         return ds.getConnection();
     }
 
-    public static void closeConnection(Connection con) {
+    public static void closeConnection(Connection con) throws SQLException {
         if(con != null) {
             try {
                 con.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException e) {
+                logger.log(Level.ERROR, "CloseConnection: ", e);
+                throw new RuntimeException(e.getMessage());
             }
         }
     }

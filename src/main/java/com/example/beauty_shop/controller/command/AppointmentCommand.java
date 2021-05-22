@@ -7,9 +7,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import javax.naming.NamingException;
+
 import static com.example.beauty_shop.constants.Constants.*;
 
-import java.time.LocalDate;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +20,7 @@ public class AppointmentCommand implements Command {
     private final AppointmentService appointmentService = new AppointmentService();
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
         request.getSession().setAttribute(HIDEDATE, true);
         String master = request.getParameter(MASTER);
         String date = request.getParameter(APPOINTMENT_DATE);

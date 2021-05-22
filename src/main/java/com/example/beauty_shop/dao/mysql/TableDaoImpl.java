@@ -3,7 +3,11 @@ package com.example.beauty_shop.dao.mysql;
 import com.example.beauty_shop.dao.TableDao;
 import com.example.beauty_shop.dao.DBManager;
 import com.example.beauty_shop.entity.*;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import javax.naming.NamingException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,9 +17,11 @@ import java.util.Map;
 import static com.example.beauty_shop.constants.Constants.*;
 
 public class TableDaoImpl implements TableDao {
+    private static final Logger logger = LogManager.getLogger();
+
 
     @Override
-    public List<Account> getClientTable() {
+    public List<Account> getClientTable() throws SQLException, NamingException {
         Connection con = null;
         List<Account> catalog = new ArrayList<>();
         try {
@@ -33,8 +39,9 @@ public class TableDaoImpl implements TableDao {
                 master.setService(service);
                 catalog.add(master);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "TableDao: ", e);
+            throw e;
         }
         finally {
             DBManager.closeConnection(con);
@@ -43,7 +50,7 @@ public class TableDaoImpl implements TableDao {
     }
 
     @Override
-    public Map<String, List> getMasterTable(Account account, String date) {
+    public Map<String, List> getMasterTable(Account account, String date) throws SQLException, NamingException {
         String updateTimeslots = "UPDATE account_has_timeslot JOIN(SELECT timeslot_id AS v1 from appointment where master_id = ?" +
                 " and date = ?) A ON account_has_timeslot.timeslot_id = A.v1 AND account_has_timeslot.account_id = ?" +
                 " SET account_has_timeslot.availability = 0;";
@@ -69,9 +76,10 @@ public class TableDaoImpl implements TableDao {
              con.commit();
              map.put(CATALOG, masterCatalog);
              map.put(APPOINTMENT, apps);
-         } catch (SQLException throwables) {
+         } catch (SQLException e) {
              rollback(con);
-             throwables.printStackTrace();
+             logger.log(Level.ERROR, "TableDao: ", e);
+             throw e;
          } finally {
              DBManager.closeConnection(con);
          }
@@ -79,7 +87,7 @@ public class TableDaoImpl implements TableDao {
     }
 
     @Override
-    public List<AdminTableItem> getAdminTable() {
+    public List<AdminTableItem> getAdminTable() throws SQLException, NamingException {
         Connection con = null;
         List<AdminTableItem> adminTable = new ArrayList<>();
         try {
@@ -93,8 +101,9 @@ public class TableDaoImpl implements TableDao {
                     "JOIN account on account.id = client_id " +
                     "ORDER BY date, time;");
             initList(set, adminTable);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "TableDao: ", e);
+            throw new RuntimeException(e.getMessage());
         } finally {
             DBManager.closeConnection(con);
         }
@@ -159,8 +168,9 @@ public class TableDaoImpl implements TableDao {
     private void rollback(Connection con) {
         try {
             con.rollback();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "TableDao: ", e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 

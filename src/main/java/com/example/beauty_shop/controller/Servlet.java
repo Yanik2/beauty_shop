@@ -5,8 +5,13 @@ import com.example.beauty_shop.controller.command.*;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import javax.naming.NamingException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +19,7 @@ import static com.example.beauty_shop.constants.Constants.*;
 
 @WebServlet(name = "Servlet", value = "/Servlet")
 public class Servlet extends HttpServlet {
+    private static final Logger logger = LogManager.getLogger();
     private Map<String, Command> commands;
 
     @Override
@@ -30,19 +36,28 @@ public class Servlet extends HttpServlet {
         commands.put(FILTERBYDATE, new FilterByDateCommand());
         commands.put(UPDATE, new UpdateAppointmentCommand());
         commands.put(CHANGE_TIME_SLOT, new ChangeTimeslotCommand());
+        commands.put(CHANGE_LANGUAGE, new ChangeLanguageCommand());
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        process(request, response);
+        try {
+            process(request, response);
+        } catch (SQLException | NamingException e) {
+            logger.log(Level.ERROR, e);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        process(request, response);
+        try {
+            process(request, response);
+        } catch (SQLException | NamingException e) {
+            logger.log(Level.ERROR, e);
+        }
     }
 
-    private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, NamingException {
         Command command = commands.get(request.getParameter(Constants.COMMAND));
         Map<String, Object> map = command.execute(request, response);
         for(Map.Entry<String, Object> entry : map.entrySet()) {

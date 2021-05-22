@@ -5,6 +5,8 @@ import com.example.beauty_shop.service.BookService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import javax.naming.NamingException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +15,7 @@ import static com.example.beauty_shop.constants.Constants.*;
 public class BookTimeCommand implements Command {
     private final BookService bookService = new BookService();
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
         Account client = (Account) request.getSession().getAttribute(USER);
         Account master = (Account) request.getSession().getAttribute(MASTER);
         String timeslot = request.getParameter(TIMESLOT);

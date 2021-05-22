@@ -6,6 +6,8 @@ import com.example.beauty_shop.service.HomepageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import javax.naming.NamingException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +18,7 @@ public class FilterByDateCommand implements Command {
     private final HomepageService homepageService = new HomepageService();
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
         String date = request.getParameter(DATE);
         Map<String, Object> map = new HashMap<>();
         map.put(PAGE, HOMEPAGE + ADMIN_HOME);

@@ -2,15 +2,20 @@ package com.example.beauty_shop.dao.mysql;
 
 import com.example.beauty_shop.dao.BookDao;
 import com.example.beauty_shop.dao.DBManager;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import javax.naming.NamingException;
 import java.sql.*;
 
 import static com.example.beauty_shop.constants.Constants.*;
 
 public class BookDaoImpl implements BookDao {
+    private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public Boolean insertAppointment(Long master_id, Long client_id, Long service_id, String time, String date) {
+    public Boolean insertAppointment(Long master_id, Long client_id, Long service_id, String time, String date) throws SQLException, NamingException {
         String selectTimeslot = "SELECT * FROM timeslot WHERE time = ?;";
         String addAppointment = "INSERT INTO appointment (master_id, client_id, service_id, timeslot_id, date) " +
                 "values (?, ?, ?, ?, ?);";
@@ -29,8 +34,9 @@ public class BookDaoImpl implements BookDao {
             initStatement(master_id, client_id, service_id, date, preparedStatement2, timeslot_id);
             rowsUpdated = preparedStatement2.executeUpdate();
             con.commit();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "BookDao: ", e);
+            throw e;
         } finally {
             DBManager.closeConnection(con);
         }

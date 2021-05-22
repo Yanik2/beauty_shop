@@ -5,6 +5,8 @@ import com.example.beauty_shop.dao.mysql.TableDaoImpl;
 import com.example.beauty_shop.entity.MasterSlotItem;
 import com.example.beauty_shop.entity.Account;
 
+import javax.naming.NamingException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -14,7 +16,7 @@ public class LoginService {
     private final AccountDaoImpl accountDao = new AccountDaoImpl();
     private final TableDaoImpl tableDao = new TableDaoImpl();
 
-    public Map<String, Object> login(String login, String password) {
+    public Map<String, Object> login(String login, String password) throws SQLException, NamingException {
         Optional<Account> account = accountDao.findByName(login);
         account = account.filter(account1 -> password.equals(account1.getPassword()));
         Map<String, Object> map = new HashMap<>();
@@ -36,6 +38,4 @@ public class LoginService {
         }
         return map;
     }
-
-
 }

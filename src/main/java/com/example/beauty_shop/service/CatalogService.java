@@ -3,6 +3,8 @@ package com.example.beauty_shop.service;
 import com.example.beauty_shop.dao.mysql.TableDaoImpl;
 import com.example.beauty_shop.entity.Account;
 
+import javax.naming.NamingException;
+import java.sql.SQLException;
 import java.util.*;
 
 import static com.example.beauty_shop.constants.Constants.FILTER_BY_MASTER;
@@ -11,7 +13,7 @@ import static com.example.beauty_shop.constants.Constants.SORT_BY_NAME;
 public class CatalogService {
     private final TableDaoImpl catalogDao = new TableDaoImpl();
 
-    public List<Account> getCatalog(String sortMethod, String filterMethod, String filter) {
+    public List<Account> getCatalog(String sortMethod, String filterMethod, String filter) throws SQLException, NamingException {
         List<Account> catalog = catalogDao.getClientTable();
         filter(catalog, filterMethod, filter);
         sort(catalog, sortMethod);

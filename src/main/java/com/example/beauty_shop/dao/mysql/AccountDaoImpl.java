@@ -4,6 +4,9 @@ import com.example.beauty_shop.dao.AccountDao;
 import com.example.beauty_shop.dao.DBManager;
 import com.example.beauty_shop.entity.Role;
 import com.example.beauty_shop.entity.Account;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.Optional;
@@ -11,7 +14,9 @@ import java.util.Optional;
 import static com.example.beauty_shop.constants.Constants.*;
 
 public class AccountDaoImpl implements AccountDao {
-    public Optional<Account> findByName(String name) {
+    private static final Logger logger = LogManager.getLogger();
+
+    public Optional<Account> findByName(String name) throws SQLException {
         String selectAccount = "SELECT * FROM account WHERE login = ?";
         Connection con = null;
         Account acc = null;
@@ -28,10 +33,10 @@ public class AccountDaoImpl implements AccountDao {
                 acc.setRate(set.getDouble(RATE));
                 String role = set.getString(ROLE);
                 acc.setRole(Role.valueOf(role.toUpperCase()));
-//                acc.setService(set.getInt("service"));
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, "AccountDao: ", e);
+            throw e;
         } finally {
             DBManager.closeConnection(con);
         }

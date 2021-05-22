@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import javax.naming.NamingException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -16,7 +18,7 @@ public class LoginCommand implements Command {
     private final LoginService loginService = new LoginService();
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
         Map<String, Object> map = new HashMap<>();
         String username = request.getParameter(USERNAME);
         String password = request.getParameter(PASSWORD);
