@@ -20,14 +20,16 @@
     <div>
         <h2><fmt:message key="serviceCatalog"/></h2>
         <form action="/Servlet" method="post">
-            <input name="command" value="getServiceCatalog" type="hidden"/>
-            <fmt:message key="sortBy"/>: <fmt:message key="name"/><input name="sortMethod" value="sortByName" type="radio" checked/>
-            <fmt:message key="rate"/><input name="sortMethod" value="sortByRate" type="radio"/>
+            <label><input name="command" value="getServiceCatalog" type="hidden"/></label>
+            <label><fmt:message key="sortBy"/>: <fmt:message key="name"/><input name="sortMethod" value="sortByName" type="radio" checked/></label>
+            <label><fmt:message key="rate"/><input name="sortMethod" value="sortByRate" type="radio"/></label>
             <br>
 
-            <p><fmt:message key="filterBy"/>: <br><fmt:message key="master"/> <input type="radio" name="filterMethod" value="filterByMaster"/><br>
-                <fmt:message key="service"/> <input type="radio" name="filterMethod" value="filterByService"/></p>
-            <fmt:message key="filterParameter"/> : <input type="text" name="filter"/>
+            <p><fmt:message key="filterBy"/>: <br>
+                <label><fmt:message key="master"/> <input type="radio" name="filterMethod" value="filterByMaster"/></label>
+                <br>
+                <label><fmt:message key="service"/> <input type="radio" name="filterMethod" value="filterByService"/></label></p>
+            <label><fmt:message key="filterParameter"/> : <input type="text" name="filter"/></label>
             <button name="submit" type="submit"><fmt:message key="submit"/></button>
         </form>
     </div>
@@ -39,11 +41,14 @@
             <div>
                 <form action="/Servlet" method="post">
                     <input type="hidden" name="command" value="login"/>
-                    <input name="username" type="text" placeholder="<fmt:message key="username"/>"/><br>
-                    <input name="password" type="password" placeholder="<fmt:message key="password"/>"/><br>
+                    <label><input name="username" type="text" placeholder="<fmt:message key="username"/>"/></label>
+                    <br>
+                    <label><input name="password" type="password" placeholder="<fmt:message key="password"/>"/></label>
+                        <br>
                     <button type="submit"><fmt:message key="login"/> </button>
                 </form>
                 <p style="color: red">${errorMessage}</p>
+                <p style="margin-top: 100px;"><a href="/Servlet?command=getAllFeedback"><fmt:message key="feedbacks"/></a></p>
             </div>
         </c:otherwise>
     </c:choose>

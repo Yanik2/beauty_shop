@@ -23,7 +23,7 @@ public class Servlet extends HttpServlet {
     private Map<String, Command> commands;
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         commands = new HashMap<>();
         commands.put(SERVICE_CATALOG, new ServiceCatalogCommand());
         commands.put(MAIN, new MainPageCommand());
@@ -37,6 +37,9 @@ public class Servlet extends HttpServlet {
         commands.put(UPDATE, new UpdateAppointmentCommand());
         commands.put(CHANGE_TIME_SLOT, new ChangeTimeslotCommand());
         commands.put(CHANGE_LANGUAGE, new ChangeLanguageCommand());
+        commands.put(LEAVE_FEEDBACK, new LeaveFeedbackCommand());
+        commands.put(SUBMIT_FEEDBACK, new SubmitFeedbackCommand());
+        commands.put(ALL_FEEDBACK, new AllFeedbackCommand());
     }
 
     @Override

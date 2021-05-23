@@ -2,7 +2,7 @@ package com.example.beauty_shop.controller.command;
 
 import com.example.beauty_shop.controller.validator.DateValidator;
 import com.example.beauty_shop.entity.AdminTableItem;
-import com.example.beauty_shop.service.HomepageService;
+import com.example.beauty_shop.service.defaultimpl.HomepageServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -15,7 +15,7 @@ import java.util.Map;
 import static com.example.beauty_shop.constants.Constants.*;
 
 public class FilterByDateCommand implements Command {
-    private final HomepageService homepageService = new HomepageService();
+    private final HomepageServiceImpl homepageServiceImpl = new HomepageServiceImpl();
 
     @Override
     public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
@@ -27,7 +27,7 @@ public class FilterByDateCommand implements Command {
             map.put(MESSAGE, CORRECT_DATE);
             return map;
         }
-        List<AdminTableItem> adminTable = homepageService.filterByDate(date);
+        List<AdminTableItem> adminTable = homepageServiceImpl.filterByDate(date);
 
         if(adminTable.size() != 0) {
             map.put(CATALOG, adminTable);

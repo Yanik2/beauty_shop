@@ -33,7 +33,7 @@ public class DBManager {
         return ds.getConnection();
     }
 
-    public static void closeConnection(Connection con) throws SQLException {
+    public static void closeConnection(Connection con) {
         if(con != null) {
             try {
                 con.close();
@@ -41,6 +41,14 @@ public class DBManager {
                 logger.log(Level.ERROR, "CloseConnection: ", e);
                 throw new RuntimeException(e.getMessage());
             }
+        }
+    }
+
+    public static void rollback(Connection con) {
+        try {
+            con.rollback();
+        } catch (SQLException e) {
+            logger.log(Level.ERROR, e.getMessage());
         }
     }
 

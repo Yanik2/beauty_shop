@@ -1,6 +1,6 @@
 package com.example.beauty_shop.controller.command;
 
-import com.example.beauty_shop.service.AppointmentService;
+import com.example.beauty_shop.service.defaultimpl.AppointmentServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -13,7 +13,7 @@ import java.util.Map;
 import static com.example.beauty_shop.constants.Constants.*;
 
 public class UpdateAppointmentCommand implements Command {
-    private final AppointmentService appointmentService = new AppointmentService();
+    private final AppointmentServiceImpl appointmentServiceImpl = new AppointmentServiceImpl();
 
     @Override
     public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
@@ -27,7 +27,7 @@ public class UpdateAppointmentCommand implements Command {
         map.put(PAGE, HOMEPAGE + ADMIN_HOME);
         if(action.equals("changeTime")) {
             initSession(request, masterId, clientId, timeslotId, date);
-            Map<String, Object> availableTime = appointmentService.getAvailableTime(masterName, date);
+            Map<String, Object> availableTime = appointmentServiceImpl.getAvailableTime(masterName, date);
             Map<Long, String> mapTimeslots = (Map<Long, String>) availableTime.get(TIMESLOTS);
             Collection<String> timeslots = mapTimeslots.values();
             map.put(TIMESLOTS, timeslots);
@@ -35,7 +35,7 @@ public class UpdateAppointmentCommand implements Command {
             return map;
         }
 
-        if(appointmentService.updateAppointment(masterId, clientId, timeslotId, date, action)) {
+        if(appointmentServiceImpl.updateAppointment(masterId, clientId, timeslotId, date, action)) {
             map.put(MESSAGE, UPDATE_SUCCESS);
             map.put(SHOWLINK, true);
         } else {

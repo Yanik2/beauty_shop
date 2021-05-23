@@ -5,7 +5,7 @@
   Time: 14:59
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${language}"/>
@@ -13,6 +13,7 @@
 <html>
 <head>
     <title><fmt:message key="client"/> </title>
+    <jsp:include page="/common/tablestyle.jsp"/>
 </head>
 <body>
 <jsp:include page="/common/header.jsp"/>
@@ -20,7 +21,7 @@
 <h2><fmt:message key="date"/>: ${date}</h2>
 <h2><fmt:message key="chooseTime"/> :</h2>
 <form action="/Servlet" method="post">
-    <table border="1">
+    <table>
         <c:forEach var="item" items="${timeslots}">
             <tr>
                 <th>${item}</th>

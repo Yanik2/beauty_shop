@@ -12,6 +12,8 @@ public class Constants {
     public static final String MASTER_HOME = "masterhome.jsp";
     public static final String ADMIN_HOME = "adminhome.jsp";
     public static final String ADMIN_CHANGE_TIME = "adminchangetime.jsp";
+    public static final String CLIENT_FEEDBACK_JSP = "clientfeedback.jsp";
+    public static final String FEEDBACK_JSP = "/feedback.jsp";
 
     public static final String ID = "id";
     public static final String RATE = "rate";
@@ -34,12 +36,16 @@ public class Constants {
     public static final String UPDATE = "update";
     public static final String CHANGE_TIME_SLOT = "changeTimeslot";
     public static final String CHANGE_LANGUAGE = "changeLanguage";
+    public static final String LEAVE_FEEDBACK = "leaveFeedback";
+    public static final String SUBMIT_FEEDBACK = "submitFeedback";
+    public static final String ALL_FEEDBACK = "getAllFeedback";
 
     public static final String LANGUAGE = "language";
     public static final String CATALOG = "catalog";
     public static final String PAGE = "page";
     public static final String USER = "user";
     public static final String MASTER = "master";
+    public static final String FEEDBACKS = "feedbacks";
 
     public static final String MASTERID = "masterId";
     public static final String CLIENTID = "clientId";
@@ -57,6 +63,7 @@ public class Constants {
     public static final String TIMESLOT = "timeslot";
     public static final String APPOINTMENT_DATE = "appointment_date";
     public static final String TIMESLOTS = "timeslots";
+    public static final String COMMENT = "comment";
 
     public static final String HIDEDATE = "hidedate";
     public static final String SHOWLINK = "showlink";
@@ -71,6 +78,8 @@ public class Constants {
     public static final String TIMESLOT_MESSAGE = "timeslotMessage";
     public static final String CORRECT_DATE = "correctDate";
     public static final String UPDATE_SUCCESS = "updateSuccess";
+    public static final String NO_FEEDBACKS = "noFeedbacks";
+
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String SORT_METHOD = "sortMethod";
@@ -88,6 +97,4 @@ public class Constants {
     public static final String SQL_ACCOUNT_LOGIN = "account.login";
     public static final String SQL_SERVICE_NAME = "service.name";
     public static final String SQL_TIMESLOT_TIME = "timeslot.time";
-
-
 }

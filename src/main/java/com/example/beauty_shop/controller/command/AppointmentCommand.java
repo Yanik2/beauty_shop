@@ -2,7 +2,7 @@ package com.example.beauty_shop.controller.command;
 
 import com.example.beauty_shop.controller.validator.DateValidator;
 import com.example.beauty_shop.entity.Account;
-import com.example.beauty_shop.service.AppointmentService;
+import com.example.beauty_shop.service.defaultimpl.AppointmentServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AppointmentCommand implements Command {
-    private final AppointmentService appointmentService = new AppointmentService();
+    private final AppointmentServiceImpl appointmentServiceImpl = new AppointmentServiceImpl();
 
     @Override
     public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
@@ -30,7 +30,7 @@ public class AppointmentCommand implements Command {
             map.put(PAGE, HOMEPAGE + CLIENT_HOME);
             return map;
         }
-        Map<String, Object> mapFromService = appointmentService.getAvailableTime(master, date);
+        Map<String, Object> mapFromService = appointmentServiceImpl.getAvailableTime(master, date);
         Account masterAcc = (Account)mapFromService.get(MASTER);
         Map<Long, String> mapTimeslots = (Map<Long, String>) mapFromService.get(TIMESLOTS);
         Collection<String> timeslots =  mapTimeslots.values();

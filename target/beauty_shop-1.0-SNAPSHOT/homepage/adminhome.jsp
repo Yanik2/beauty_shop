@@ -1,4 +1,3 @@
-
 <%--
   Created by IntelliJ IDEA.
   User: y
@@ -8,7 +7,7 @@
 --%>
 <%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
 <%--<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${language}"/>
@@ -16,6 +15,7 @@
 <html>
 <head>
     <title>Title</title>
+    <jsp:include page="/common/tablestyle.jsp"/>
 </head>
 <body>
 <jsp:include page="/common/header.jsp"/>
@@ -25,14 +25,14 @@
     </c:when>
     <c:otherwise>
         <form action="/Servlet" method="post">
-            <input type="date" name="date"/>
+            <label><input type="date" name="date"/></label>
             <button type="submit" name="command" value="filterByDate"><fmt:message key="filterByDate"/></button>
         </form>
     </c:otherwise>
 </c:choose>
-<table border="1">
+<table>
     <tr>
-        <th><fmt:message key="master"/> </th>
+        <th><fmt:message key="master"/></th>
         <th><fmt:message key="client"/></th>
         <th><fmt:message key="service"/></th>
         <th><fmt:message key="time"/></th>
@@ -42,15 +42,19 @@
         <th><fmt:message key="confirmPayment"/></th>
     </tr>
     <c:forEach var="item" items="${catalog}">
-        <tr>
-            <form action="/Servlet" method="post">
+        <form action="/Servlet" method="post">
+            <tr>
                 <td>${item.masterName}</td>
                 <td>${item.clientName}</td>
                 <td>${item.serviceName}</td>
                 <td>${item.time}</td>
                 <td>${item.date}</td>
-                <td><button type="submit" name="action" value="changeTime"><fmt:message key="changeTime"/></button></td>
-                <td><button type="submit" name="action" value="cancel"><fmt:message key="cancel"/></button></td>
+                <td>
+                    <button type="submit" name="action" value="changeTime"><fmt:message key="changeTime"/></button>
+                </td>
+                <td>
+                    <button type="submit" name="action" value="cancel"><fmt:message key="cancel"/></button>
+                </td>
                 <td>
                     <c:choose>
                         <c:when test="${item.paid}">
@@ -61,14 +65,20 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
-                <input type="hidden" name="masterName" value="${item.masterName}"/>
-                <input type="hidden" name="masterId" value="${item.masterId}"/>
-                <input type="hidden" name="clientId" value="${item.clientId}"/>
-                <input type="hidden" name="timeslotId" value="${item.timeslotId}"/>
-                <input type="hidden" name="date" value="${item.date}"/>
-                <input type="hidden" name="command" value="update"/>
-            </form>
-        </tr>
+<%--                <input type="hidden" name="masterName" value="${item.masterName}"/>--%>
+<%--                <input type="hidden" name="masterId" value="${item.masterId}"/>--%>
+<%--                <input type="hidden" name="clientId" value="${item.clientId}"/>--%>
+<%--                <input type="hidden" name="timeslotId" value="${item.timeslotId}"/>--%>
+<%--                <input type="hidden" name="date" value="${item.date}"/>--%>
+<%--                <input type="hidden" name="command" value="update"/>--%>
+            </tr>
+            <input type="hidden" name="masterName" value="${item.masterName}"/>
+            <input type="hidden" name="masterId" value="${item.masterId}"/>
+            <input type="hidden" name="clientId" value="${item.clientId}"/>
+            <input type="hidden" name="timeslotId" value="${item.timeslotId}"/>
+            <input type="hidden" name="date" value="${item.date}"/>
+            <input type="hidden" name="command" value="update"/>
+        </form>
     </c:forEach>
 </table>
 <h2><fmt:message key="${message}"/></h2>

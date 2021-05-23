@@ -1,7 +1,7 @@
 package com.example.beauty_shop.controller.command;
 
 import com.example.beauty_shop.entity.Account;
-import com.example.beauty_shop.service.LoginService;
+import com.example.beauty_shop.service.defaultimpl.LoginServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -15,14 +15,14 @@ import java.util.Optional;
 import static com.example.beauty_shop.constants.Constants.*;
 
 public class LoginCommand implements Command {
-    private final LoginService loginService = new LoginService();
+    private final LoginServiceImpl loginServiceImpl = new LoginServiceImpl();
 
     @Override
     public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
         Map<String, Object> map = new HashMap<>();
         String username = request.getParameter(USERNAME);
         String password = request.getParameter(PASSWORD);
-        Map<String, Object> loginMap = loginService.login(username, password);
+        Map<String, Object> loginMap = loginServiceImpl.login(username, password);
         Optional<Account> account =  (Optional<Account>) loginMap.get(USER);
         if(account.isPresent()) {
             initSession(request, map, loginMap, account.get());

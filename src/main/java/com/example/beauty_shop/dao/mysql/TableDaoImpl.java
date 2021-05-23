@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.naming.NamingException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +20,7 @@ public class TableDaoImpl implements TableDao {
 
 
     @Override
-    public List<Account> getClientTable() throws SQLException, NamingException {
+    public List<Account> getClientTable() throws SQLException {
         Connection con = null;
         List<Account> catalog = new ArrayList<>();
         try {
@@ -50,7 +49,7 @@ public class TableDaoImpl implements TableDao {
     }
 
     @Override
-    public Map<String, List> getMasterTable(Account account, String date) throws SQLException, NamingException {
+    public Map<String, List> getMasterTable(Account account, String date) throws SQLException {
         String updateTimeslots = "UPDATE account_has_timeslot JOIN(SELECT timeslot_id AS v1 from appointment where master_id = ?" +
                 " and date = ?) A ON account_has_timeslot.timeslot_id = A.v1 AND account_has_timeslot.account_id = ?" +
                 " SET account_has_timeslot.availability = 0;";
@@ -87,7 +86,7 @@ public class TableDaoImpl implements TableDao {
     }
 
     @Override
-    public List<AdminTableItem> getAdminTable() throws SQLException, NamingException {
+    public List<AdminTableItem> getAdminTable() {
         Connection con = null;
         List<AdminTableItem> adminTable = new ArrayList<>();
         try {

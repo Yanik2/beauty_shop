@@ -5,7 +5,7 @@
   Time: 22:22
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"  %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${language}"/>
@@ -13,13 +13,14 @@
 <html>
 <head>
     <title>Title</title>
+   <jsp:include page="/common/tablestyle.jsp"/>
 </head>
 <body>
 <jsp:include page="/common/header.jsp"/>
 <c:if test="${showlink}">
     <a href="/Servlet?command=homepage"><fmt:message key="homePage"/></a>
 </c:if>
-<table border="1">
+<table>
     <c:forEach var="item" items="${catalog}">
         <tr>
             <th>${item.timeslot}</th>
@@ -53,9 +54,6 @@
 <c:if test="${message != null}">
     <h2><fmt:message key="${message}"/></h2>
 </c:if>
-
-<%--<h2>${message}</h2>--%>
-
 <jsp:include page="/common/footer.jsp"/>
 </body>
 </html>

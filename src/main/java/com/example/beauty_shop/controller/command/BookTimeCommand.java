@@ -1,7 +1,7 @@
 package com.example.beauty_shop.controller.command;
 
 import com.example.beauty_shop.entity.Account;
-import com.example.beauty_shop.service.BookService;
+import com.example.beauty_shop.service.defaultimpl.BookServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -13,7 +13,7 @@ import java.util.Map;
 import static com.example.beauty_shop.constants.Constants.*;
 
 public class BookTimeCommand implements Command {
-    private final BookService bookService = new BookService();
+    private final BookServiceImpl bookServiceImpl = new BookServiceImpl();
     @Override
     public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
         Account client = (Account) request.getSession().getAttribute(USER);
@@ -22,7 +22,7 @@ public class BookTimeCommand implements Command {
         String date = (String) request.getSession().getAttribute(DATE);
         Map<String, Object> map = new HashMap<>();
         map.put(PAGE, HOMEPAGE + CLIENT_HOME);
-        if(bookService.bookTime(master, client, timeslot, date)) {
+        if(bookServiceImpl.bookTime(master, client, timeslot, date)) {
             map.put(MESSAGE, MESSAGE_SUCCESS);
         } else {
             map.put(MESSAGE, MESSAGE_FAILURE);

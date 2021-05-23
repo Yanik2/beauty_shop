@@ -6,15 +6,17 @@ public class Account {
     private String password;
     private Role role;
     private Service service;
-    private double rate;
+    private Double rate;
+    private Integer feedbackAmount;
 
-    public Account(Long id, String login, String password, Role role, Service service, double rate) {
+    public Account(Long id, String login, String password, Role role, Service service, double rate, int feedbackAmount) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.role = role;
         this.service = service;
         this.rate = rate;
+        this.feedbackAmount = feedbackAmount;
     }
 
     public Account() {
@@ -66,6 +68,14 @@ public class Account {
 
     public void setRate(double rate) {
         this.rate = rate;
+    }
+
+    public int getFeedbackAmount() {
+        return feedbackAmount;
+    }
+
+    public void setFeedbackAmount(int feedbackAmount) {
+        this.feedbackAmount = feedbackAmount;
     }
 
     @Override
