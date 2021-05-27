@@ -7,6 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="resources"/>
 <html>
 <head>
     <title>Services</title>
@@ -18,9 +21,9 @@
     <c:forEach var="item" items="${catalog}">
         <tr>
             <th>${item.login}</th>
-            <th>${item.service.name}</th>
-            <th>${item.service.description}</th>
-            <th>${item.rate}</th>
+            <th><fmt:message key="${item.service.name}"/></th>
+            <th><fmt:message key="${item.service.description}"/> </th>
+            <th><fmt:formatNumber type="number" maxFractionDigits="2" value="${item.rate}"/></th>
         </tr>
     </c:forEach>
 </table>

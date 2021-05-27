@@ -4,7 +4,6 @@ import com.example.beauty_shop.dao.mysql.TableDaoImpl;
 import com.example.beauty_shop.entity.Account;
 import com.example.beauty_shop.service.CatalogService;
 
-import javax.naming.NamingException;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -12,7 +11,7 @@ import static com.example.beauty_shop.constants.Constants.FILTER_BY_MASTER;
 import static com.example.beauty_shop.constants.Constants.SORT_BY_NAME;
 
 public class CatalogServiceImpl implements CatalogService {
-    private final TableDaoImpl catalogDao = new TableDaoImpl();
+    private TableDaoImpl catalogDao = new TableDaoImpl();
 
     public List<Account> getCatalog(String sortMethod, String filterMethod, String filter) throws SQLException {
         List<Account> catalog = catalogDao.getClientTable();
@@ -67,5 +66,9 @@ public class CatalogServiceImpl implements CatalogService {
                 it.remove();
             }
         }
+    }
+
+    public void setCatalogDao(TableDaoImpl catalogDao) {
+        this.catalogDao = catalogDao;
     }
 }

@@ -11,20 +11,18 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.beauty_shop.constants.SQLConstants.*;
+
 public class FeedbackDaoImpl implements FeedbackDao {
     private static final Logger logger = LogManager.getLogger();
 
     public boolean insertFeedback(Long masterId, Long clientId, String comment, Double clientRate, Double newRate, Integer feedbackAmount) {
-        String insertFeedback = "INSERT INTO feedback (master_id, client_id, feedback_text, rate) " +
-                "values (?, ?, ?, ?);";
-        String updateAccount = "UPDATE account SET rate = ?, feedback_amount = ? " +
-                "WHERE id = ?;";
         Connection con = null;
         try {
             con = DBManager.getConnection();
             con.setAutoCommit(false);
-            PreparedStatement insertSt = con.prepareStatement(insertFeedback);
-            PreparedStatement updateSt = con.prepareStatement(updateAccount);
+            PreparedStatement insertSt = con.prepareStatement(INSERT_FEEDBACK);
+            PreparedStatement updateSt = con.prepareStatement(UPDATE_ACCOUNT);
             initInsertSt(insertSt, masterId, clientId, comment, clientRate);
             initUpdateSt(updateSt, newRate, feedbackAmount, masterId);
             insertSt.executeUpdate();
@@ -47,9 +45,7 @@ public class FeedbackDaoImpl implements FeedbackDao {
         try {
             con = DBManager.getConnection();
             Statement getAll = con.createStatement();
-            ResultSet set = getAll.executeQuery("SELECT A.login, account.login, feedback_text, feedback.rate FROM feedback " +
-                    "JOIN (SELECT id, login FROM account) A ON A.id = master_id " +
-                    "JOIN account ON account.id = client_id;");
+            ResultSet set = getAll.executeQuery(SELECT_ALL_FEEDBACKS);
             initList(set, feedbacks);
         } catch (SQLException e) {
             logger.log(Level.ERROR, e.getMessage());

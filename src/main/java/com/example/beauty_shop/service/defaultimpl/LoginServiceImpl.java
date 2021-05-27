@@ -14,16 +14,16 @@ import java.util.*;
 import static com.example.beauty_shop.constants.Constants.*;
 
 public class LoginServiceImpl implements LoginService {
-    private final AccountDaoImpl accountDao = new AccountDaoImpl();
-    private final TableDaoImpl tableDao = new TableDaoImpl();
+    private AccountDaoImpl accountDao = new AccountDaoImpl();
+    private TableDaoImpl tableDao = new TableDaoImpl();
 
     public Map<String, Object> login(String login, String password) throws SQLException, NamingException {
         Optional<Account> account = accountDao.findByName(login);
         account = account.filter(account1 -> password.equals(account1.getPassword()));
         Map<String, Object> map = new HashMap<>();
         map.put(USER, account);
-        if(account.isPresent()) {
-            Account user = account.get();
+        Account user = account.orElse(null);
+        if(user != null) {
             switch(user.getRole()) {
                 case CLIENT:
                     map.put(CATALOG, tableDao.getClientTable());
@@ -38,5 +38,13 @@ public class LoginServiceImpl implements LoginService {
             }
         }
         return map;
+    }
+
+    public void setAccountDao(AccountDaoImpl accountDao) {
+        this.accountDao = accountDao;
+    }
+
+    public void setTableDao(TableDaoImpl tableDao) {
+        this.tableDao = tableDao;
     }
 }

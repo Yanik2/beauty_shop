@@ -32,9 +32,9 @@
         <c:forEach var="item" items="${catalog}">
             <tr>
                 <th>${item.login}</th>
-                <th>${item.service.name}</th>
-                <th>${item.service.description}</th>
-                <th>${item.rate}</th>
+                <th><fmt:message key="${item.service.name}"/></th>
+                <th><fmt:message key="${item.service.description}"/> </th>
+                <th><fmt:formatNumber type="number" maxFractionDigits="2" value="${item.rate}"/></th>
                 <th>
                     <button type="submit" name="master" value="${item.login}"><fmt:message key="makeAnAppointment"/></button>
                     <input type="hidden" name="command" value="appointment"/>
@@ -50,7 +50,10 @@
     </table>
 </form>
 
-<h2><fmt:message key="${message}"/></h2>
+<c:if test="${message != null}">
+    <h2><fmt:message key="${message}"/></h2>
+</c:if>
+
 
 <jsp:include page="/common/footer.jsp"/>
 </body>

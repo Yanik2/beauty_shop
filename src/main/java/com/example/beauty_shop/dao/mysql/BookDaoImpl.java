@@ -9,23 +9,21 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 
 import static com.example.beauty_shop.constants.Constants.*;
+import static com.example.beauty_shop.constants.SQLConstants.INSERT_APPOINTMENT;
+import static com.example.beauty_shop.constants.SQLConstants.SELECT_ALL_TIMESLOT;
 
 public class BookDaoImpl implements BookDao {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public Boolean insertAppointment(Long master_id, Long client_id, Long service_id, String time, String date) throws SQLException {
-        String selectTimeslot = "SELECT * FROM timeslot WHERE time = ?;";
-        String addAppointment = "INSERT INTO appointment (master_id, client_id, service_id, timeslot_id, date) " +
-                "values (?, ?, ?, ?, ?);";
-
         Connection con = null;
         int rowsUpdated;
         try {
             con = DBManager.getConnection();
             con.setAutoCommit(false);
-            PreparedStatement preparedStatement1 = con.prepareStatement(selectTimeslot);
-            PreparedStatement preparedStatement2 = con.prepareStatement(addAppointment);
+            PreparedStatement preparedStatement1 = con.prepareStatement(SELECT_ALL_TIMESLOT);
+            PreparedStatement preparedStatement2 = con.prepareStatement(INSERT_APPOINTMENT);
             preparedStatement1.setString(1, time);
             ResultSet set = preparedStatement1.executeQuery();
             set.next();
@@ -34,7 +32,7 @@ public class BookDaoImpl implements BookDao {
             rowsUpdated = preparedStatement2.executeUpdate();
             con.commit();
         } catch (SQLException e) {
-            logger.log(Level.ERROR, "BookDao: ", e);
+            logger.log(Level.ERROR, e);
             throw e;
         } finally {
             DBManager.closeConnection(con);

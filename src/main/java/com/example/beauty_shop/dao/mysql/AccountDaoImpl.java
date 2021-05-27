@@ -12,21 +12,22 @@ import java.sql.*;
 import java.util.Optional;
 
 import static com.example.beauty_shop.constants.Constants.*;
+import static com.example.beauty_shop.constants.SQLConstants.SELECT_ACCOUNT_BY_ID;
+import static com.example.beauty_shop.constants.SQLConstants.SELECT_ACCOUNT_BY_LOGIN;
 
 public class AccountDaoImpl implements AccountDao {
     private static final Logger logger = LogManager.getLogger();
 
     public Optional<Account> findByName(String name) {
-        String selectAccount = "SELECT * FROM account WHERE login = ?";
         Connection con = null;
         Account acc = null;
         try {
             con = DBManager.getConnection();
-            PreparedStatement st = con.prepareStatement(selectAccount);
+            PreparedStatement st = con.prepareStatement(SELECT_ACCOUNT_BY_LOGIN);
             st.setString(1, name);
             acc = initAccount(st);
         } catch (SQLException e) {
-            logger.log(Level.ERROR, "AccountDao: ", e);
+            logger.log(Level.ERROR, e);
         } finally {
             DBManager.closeConnection(con);
         }
@@ -34,12 +35,11 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     public Optional<Account> findById(Long id) {
-        String selectAccount = "SELECT * FROM account WHERE id = ?";
         Connection con = null;
         Account acc = null;
         try {
             con = DBManager.getConnection();
-            PreparedStatement selectStatement = con.prepareStatement(selectAccount);
+            PreparedStatement selectStatement = con.prepareStatement(SELECT_ACCOUNT_BY_ID);
             selectStatement.setLong(1, id);
             acc = initAccount(selectStatement);
         } catch (SQLException e) {

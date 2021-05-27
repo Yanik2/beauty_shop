@@ -9,15 +9,13 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.example.beauty_shop.constants.Constants.*;
+import static com.example.beauty_shop.constants.SQLConstants.*;
 
 public class TableDaoImpl implements TableDao {
     private static final Logger logger = LogManager.getLogger();
-
 
     @Override
     public List<Account> getClientTable() throws SQLException {
@@ -26,7 +24,7 @@ public class TableDaoImpl implements TableDao {
         try {
             con = DBManager.getConnection();
             Statement st = con.createStatement();
-            ResultSet set = st.executeQuery("SELECT * FROM account JOIN service ON service_id = service.id;");
+            ResultSet set = st.executeQuery(SELECT_ACCOUNT_JOIN_SERVICE);
             while(set.next()) {
                 Account master = new Account();
                 Service service = new Service();
@@ -39,7 +37,7 @@ public class TableDaoImpl implements TableDao {
                 catalog.add(master);
             }
         } catch (SQLException e) {
-            logger.log(Level.ERROR, "TableDao: ", e);
+            logger.log(Level.ERROR,  e);
             throw e;
         }
         finally {
@@ -49,40 +47,32 @@ public class TableDaoImpl implements TableDao {
     }
 
     @Override
-    public Map<String, List> getMasterTable(Account account, String date) throws SQLException {
-        String updateTimeslots = "UPDATE account_has_timeslot JOIN(SELECT timeslot_id AS v1 from appointment where master_id = ?" +
-                " and date = ?) A ON account_has_timeslot.timeslot_id = A.v1 AND account_has_timeslot.account_id = ?" +
-                " SET account_has_timeslot.availability = 0;";
-        String getTimeslots = "SELECT timeslot.id, timeslot.time, availability FROM account_has_timeslot " +
-                "JOIN timeslot ON timeslot.id = timeslot_id WHERE account_id = ? ORDER BY timeslot.id;";
-        String rollbackDB = "UPDATE account_has_timeslot SET availability = 1 WHERE account_id = ?";
-        String getAppointments = "SELECT * FROM appointment WHERE master_id = ? and date = ?;";
-
-        Map<String, List> map = new HashMap<>();
+    public ListWrapper getMasterTable(Account account, String date) throws SQLException {
+        ListWrapper wrapper = new ListWrapper();
         Connection con = null;
          try {
              con = DBManager.getConnection();
              con.setAutoCommit(false);
-             PreparedStatement prepStatementUpdateTimeslots = con.prepareStatement(updateTimeslots);
-             PreparedStatement prepStatementGetTimeslots = con.prepareStatement(getTimeslots);
-             PreparedStatement prepStatementRollbackDB = con.prepareStatement(rollbackDB);
-             PreparedStatement prepStatementGetAppointments = con.prepareStatement(getAppointments);
+             PreparedStatement prepStatementUpdateTimeslots = con.prepareStatement(UPDATE_ACCOUNT_HAS_TIMESLOT);
+             PreparedStatement prepStatementGetTimeslots = con.prepareStatement(SELECT_ACCOUNT_HAS_TIMESLOT_JOIN_TIMESLOT);
+             PreparedStatement prepStatementRollbackDB = con.prepareStatement(ROLLBACK_ACCOUNT_HAS_TIMESLOT);
+             PreparedStatement prepStatementGetAppointments = con.prepareStatement(SELECT_APPOINTMENTS_BY_MASTERID);
              prepStatementRollbackDB.setLong(1, account.getId());
              updateTimeslots(prepStatementUpdateTimeslots, account, date);
              List<MasterSlotItem> masterCatalog = getMasterSlots(prepStatementGetTimeslots, account);
              prepStatementRollbackDB.executeUpdate();
              List<Appointment> apps = getAppointments(prepStatementGetAppointments, account, date);
              con.commit();
-             map.put(CATALOG, masterCatalog);
-             map.put(APPOINTMENT, apps);
+             wrapper.setMasterSlots(masterCatalog);
+             wrapper.setAppointments(apps);
          } catch (SQLException e) {
-             rollback(con);
+             DBManager.rollback(con);
              logger.log(Level.ERROR, "TableDao: ", e);
              throw e;
          } finally {
              DBManager.closeConnection(con);
          }
-         return map;
+         return wrapper;
     }
 
     @Override
@@ -92,13 +82,7 @@ public class TableDaoImpl implements TableDao {
         try {
             con = DBManager.getConnection();
             Statement st = con.createStatement();
-            ResultSet set = st.executeQuery("SELECT A.id, account.id, timeslot.id, A.login, account.login, " +
-                    "service.name, timeslot.time, date, paid from appointment " +
-                    "JOIN service on service_id = service.id " +
-                    "JOIN(SELECT id, login from account) A on A.id = master_id " +
-                    "JOIN timeslot on timeslot_id = timeslot.id " +
-                    "JOIN account on account.id = client_id " +
-                    "ORDER BY date, time;");
+            ResultSet set = st.executeQuery(SELECT_ADMIN_TABLE);
             initList(set, adminTable);
         } catch (SQLException e) {
             logger.log(Level.ERROR, "TableDao: ", e);
@@ -163,15 +147,4 @@ public class TableDaoImpl implements TableDao {
         st.setLong(3, account.getId());
         st.executeUpdate();
     }
-
-    private void rollback(Connection con) {
-        try {
-            con.rollback();
-        } catch (SQLException e) {
-            logger.log(Level.ERROR, "TableDao: ", e);
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-
 }

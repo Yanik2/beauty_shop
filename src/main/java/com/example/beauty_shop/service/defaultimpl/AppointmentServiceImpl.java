@@ -13,7 +13,7 @@ import java.util.Map;
 import static com.example.beauty_shop.constants.Constants.*;
 
 public class AppointmentServiceImpl implements AppointmentService {
-    private final AppointmentDaoImpl appointmentDao = new AppointmentDaoImpl();
+    private AppointmentDaoImpl appointmentDao = new AppointmentDaoImpl();
 
     public Map<String, Object> getAvailableTime(String master, String date) throws SQLException {
         List<Appointment> appointments = appointmentDao.getAppointments(master, date);
@@ -38,5 +38,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     public boolean changeTimeslot(Long masterId, Long clientId, Long timeslotId, String date, String newTimeslot) throws SQLException, NamingException {
         return appointmentDao.changeTimeslot(masterId, clientId, timeslotId, date, newTimeslot);
+    }
+
+    public void setAppointmentDao(AppointmentDaoImpl appointmentDao) {
+        this.appointmentDao = appointmentDao;
     }
 }

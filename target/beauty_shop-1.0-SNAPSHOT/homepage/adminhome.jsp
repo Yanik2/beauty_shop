@@ -46,7 +46,7 @@
             <tr>
                 <td>${item.masterName}</td>
                 <td>${item.clientName}</td>
-                <td>${item.serviceName}</td>
+                <td><fmt:message key="${item.serviceName}"/> </td>
                 <td>${item.time}</td>
                 <td>${item.date}</td>
                 <td>
@@ -58,7 +58,7 @@
                 <td>
                     <c:choose>
                         <c:when test="${item.paid}">
-                            Paid
+                            <fmt:message key="paid"/>
                         </c:when>
                         <c:otherwise>
                             <button type="submit" name="action" value="confirm"><fmt:message key="confirm"/></button>

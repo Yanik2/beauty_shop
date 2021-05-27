@@ -1,13 +1,9 @@
 package com.example.beauty_shop.service.defaultimpl;
 
 import com.example.beauty_shop.dao.mysql.TableDaoImpl;
-import com.example.beauty_shop.entity.Account;
-import com.example.beauty_shop.entity.AdminTableItem;
-import com.example.beauty_shop.entity.Appointment;
-import com.example.beauty_shop.entity.MasterSlotItem;
+import com.example.beauty_shop.entity.*;
 import com.example.beauty_shop.service.HomepageService;
 
-import javax.naming.NamingException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -15,11 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.example.beauty_shop.constants.Constants.APPOINTMENT;
 import static com.example.beauty_shop.constants.Constants.CATALOG;
 
 public class HomepageServiceImpl implements HomepageService {
-    private final TableDaoImpl tableDao = new TableDaoImpl();
+    private TableDaoImpl tableDao = new TableDaoImpl();
 
     public Map<String, Object> getPageFill(Account currentUser) throws SQLException {
         Map<String, Object> map = new HashMap<>();
@@ -38,9 +33,9 @@ public class HomepageServiceImpl implements HomepageService {
         return map;
     }
 
-    public static List<MasterSlotItem> makeMasterSlots(Map<String, List> map) {
-        List<Appointment> apps = map.get(APPOINTMENT);
-        List<MasterSlotItem> catalog = map.get(CATALOG);
+    public static List<MasterSlotItem> makeMasterSlots(ListWrapper wrapper) {
+        List<Appointment> apps = wrapper.getAppointments();
+        List<MasterSlotItem> catalog = wrapper.getMasterSlots();
         for(Appointment ap : apps) {
             Long id = ap.getTimeslot_id();
             Boolean done = ap.getDone();
@@ -54,5 +49,9 @@ public class HomepageServiceImpl implements HomepageService {
     public List<AdminTableItem> filterByDate(String date) {
         List<AdminTableItem> adminTable = tableDao.getAdminTable();
         return adminTable.stream().filter(item -> item.getDate().equals(date)).collect(Collectors.toList());
+    }
+
+    public void setTableDao(TableDaoImpl tableDao) {
+        this.tableDao = tableDao;
     }
 }

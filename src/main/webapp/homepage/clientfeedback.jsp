@@ -17,14 +17,14 @@
 <body>
 <jsp:include page="/common/header.jsp"/>
 <form action="/Servlet" method="post">
-    Rate:
+    <fmt:message key="rate"/>:
     <label>1<input type="radio" name="rate" value="1"/></label>
     <label>2<input type="radio" name="rate" value="2"/></label>
     <label>3<input type="radio" name="rate" value="3"/></label>
     <label>4<input type="radio" name="rate" value="4"/></label>
     <label>5<input type="radio" name="rate" value="5"/></label>
     <br>
-    <textarea name="comment" cols="40" rows="3"></textarea>
+    <label><textarea name="comment" cols="40" rows="3"></textarea></label>
     <br>
     <button type="submit" name="command" value="submitFeedback"><fmt:message key="submit"/></button>
 </form>

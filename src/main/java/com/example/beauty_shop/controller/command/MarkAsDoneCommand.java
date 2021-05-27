@@ -14,7 +14,7 @@ import java.util.Map;
 import static com.example.beauty_shop.constants.Constants.*;
 
 public class MarkAsDoneCommand implements Command {
-    private final AppointmentServiceImpl appointmentServiceImpl = new AppointmentServiceImpl();
+    private AppointmentServiceImpl appointmentServiceImpl = new AppointmentServiceImpl();
 
     @Override
     public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
@@ -33,5 +33,9 @@ public class MarkAsDoneCommand implements Command {
             map.put(MESSAGE, MARK_FAILURE);
         }
         return map;
+    }
+
+    public void setAppointmentServiceImpl(AppointmentServiceImpl appointmentServiceImpl) {
+        this.appointmentServiceImpl = appointmentServiceImpl;
     }
 }

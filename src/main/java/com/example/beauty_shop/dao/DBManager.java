@@ -26,7 +26,7 @@ public class DBManager {
                 Context context = new InitialContext();
                 ds = (DataSource) context.lookup("java:comp/env/jdbc/yan");
             } catch (NamingException e) {
-                logger.log(Level.ERROR, "DBManager: ", e);
+                logger.log(Level.ERROR, e);
                 throw new RuntimeException(e.getMessage());
             }
         }
@@ -45,10 +45,13 @@ public class DBManager {
     }
 
     public static void rollback(Connection con) {
-        try {
-            con.rollback();
-        } catch (SQLException e) {
-            logger.log(Level.ERROR, e.getMessage());
+        if(con != null) {
+            try {
+                con.rollback();
+            } catch (SQLException e) {
+                logger.log(Level.ERROR, e.getMessage());
+                throw new RuntimeException(e.getMessage());
+            }
         }
     }
 

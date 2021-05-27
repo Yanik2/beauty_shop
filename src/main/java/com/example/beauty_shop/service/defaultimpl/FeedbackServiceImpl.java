@@ -7,10 +7,14 @@ import com.example.beauty_shop.service.FeedbackService;
 import java.util.List;
 
 public class FeedbackServiceImpl implements FeedbackService {
-    private final FeedbackDaoImpl feedbackDao = new FeedbackDaoImpl();
+    private FeedbackDaoImpl feedbackDao = new FeedbackDaoImpl();
 
     @Override
     public List<Feedback> getAllFeedbacks() {
         return feedbackDao.findAll();
+    }
+
+    public void setFeedbackDao(FeedbackDaoImpl feedbackDao) {
+        this.feedbackDao = feedbackDao;
     }
 }
