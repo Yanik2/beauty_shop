@@ -13,7 +13,7 @@ import static com.example.beauty_shop.constants.Constants.SORT_BY_NAME;
 public class CatalogServiceImpl implements CatalogService {
     private TableDaoImpl catalogDao = new TableDaoImpl();
 
-    public List<Account> getCatalog(String sortMethod, String filterMethod, String filter) throws SQLException {
+    public List<Account> getCatalog(String sortMethod, String filterMethod, String filter) {
         List<Account> catalog = catalogDao.getClientTable();
         filter(catalog, filterMethod, filter);
         sort(catalog, sortMethod);

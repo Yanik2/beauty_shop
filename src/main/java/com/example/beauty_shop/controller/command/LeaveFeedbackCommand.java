@@ -13,7 +13,7 @@ import static com.example.beauty_shop.constants.Constants.*;
 public class LeaveFeedbackCommand implements Command {
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
         Long masterId = Long.parseLong(request.getParameter(MASTERID));
         request.getSession().setAttribute(MASTERID, masterId);
         Map<String, Object> map = new HashMap<>();

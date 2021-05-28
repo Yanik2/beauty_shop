@@ -16,7 +16,7 @@ public class ChangeTimeslotCommand implements Command {
     private final AppointmentServiceImpl appointmentServiceImpl = new AppointmentServiceImpl();
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
         Long masterId = (Long)(request.getSession().getAttribute(MASTERID));
         Long clientId = (Long)(request.getSession().getAttribute(CLIENTID));
         Long timeslotId = (Long)(request.getSession().getAttribute(TIMESLOTID));

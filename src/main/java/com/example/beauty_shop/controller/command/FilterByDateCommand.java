@@ -18,7 +18,7 @@ public class FilterByDateCommand implements Command {
     private final HomepageServiceImpl homepageServiceImpl = new HomepageServiceImpl();
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
         String date = request.getParameter(DATE);
         Map<String, Object> map = new HashMap<>();
         map.put(PAGE, HOMEPAGE + ADMIN_HOME);

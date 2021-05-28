@@ -18,7 +18,7 @@ public class LoginCommand implements Command {
     private final LoginServiceImpl loginServiceImpl = new LoginServiceImpl();
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<>();
         String username = request.getParameter(USERNAME);
         String password = request.getParameter(PASSWORD);

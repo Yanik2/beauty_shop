@@ -44,28 +44,20 @@ public class Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            process(request, response);
-        } catch (SQLException | NamingException e) {
-            logger.log(Level.ERROR, e);
-        }
+        process(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            process(request, response);
-        } catch (SQLException | NamingException e) {
-            logger.log(Level.ERROR, e);
-        }
+        process(request, response);
     }
 
-    private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, NamingException {
+    private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Command command = commands.get(request.getParameter(Constants.COMMAND));
         Map<String, Object> map = command.execute(request, response);
-        for(Map.Entry<String, Object> entry : map.entrySet()) {
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
             request.setAttribute(entry.getKey(), entry.getValue());
         }
-        getServletContext().getRequestDispatcher((String)map.get(Constants.PAGE)).forward(request, response);
+        getServletContext().getRequestDispatcher((String) map.get(Constants.PAGE)).forward(request, response);
     }
 }

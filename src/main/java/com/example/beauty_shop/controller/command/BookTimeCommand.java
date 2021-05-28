@@ -15,7 +15,7 @@ import static com.example.beauty_shop.constants.Constants.*;
 public class BookTimeCommand implements Command {
     private final BookServiceImpl bookServiceImpl = new BookServiceImpl();
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
         Account client = (Account) request.getSession().getAttribute(USER);
         Account master = (Account) request.getSession().getAttribute(MASTER);
         String timeslot = request.getParameter(TIMESLOT);

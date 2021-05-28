@@ -39,7 +39,7 @@ public class DBManager {
                 con.close();
             } catch (SQLException e) {
                 logger.log(Level.ERROR, "CloseConnection: ", e);
-                throw new RuntimeException(e.getMessage());
+                throw new Error(e.getMessage());
             }
         }
     }
@@ -50,7 +50,7 @@ public class DBManager {
                 con.rollback();
             } catch (SQLException e) {
                 logger.log(Level.ERROR, e.getMessage());
-                throw new RuntimeException(e.getMessage());
+                throw new Error(e.getMessage());
             }
         }
     }

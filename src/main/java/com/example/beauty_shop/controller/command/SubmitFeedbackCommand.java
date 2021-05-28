@@ -16,7 +16,7 @@ public class SubmitFeedbackCommand implements Command {
     private final SubmitFeedbackServiceImpl submitFeedbackService = new SubmitFeedbackServiceImpl();
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
         Long masterId = (Long)request.getSession().getAttribute(MASTERID);
         Account currentUser = (Account)request.getSession().getAttribute(USER);
         String comment = request.getParameter(COMMENT);

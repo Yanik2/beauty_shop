@@ -16,7 +16,7 @@ import static com.example.beauty_shop.constants.Constants.*;
 public class AllFeedbackCommand implements Command {
     private final FeedbackServiceImpl feedbackService = new FeedbackServiceImpl();
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
         List<Feedback> feedbacks = feedbackService.getAllFeedbacks();
         Map<String, Object> map = new HashMap<>();
         map.put(PAGE, FEEDBACK_JSP);

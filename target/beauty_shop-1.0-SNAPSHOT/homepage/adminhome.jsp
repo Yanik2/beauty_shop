@@ -81,7 +81,10 @@
         </form>
     </c:forEach>
 </table>
-<h2><fmt:message key="${message}"/></h2>
+<c:if test="${message != null}">
+    <h2><fmt:message key="${message}"/></h2>
+</c:if>
+
 <jsp:include page="/common/footer.jsp"/>
 </body>
 </html>

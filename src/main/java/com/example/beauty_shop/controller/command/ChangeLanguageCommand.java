@@ -12,7 +12,7 @@ import static com.example.beauty_shop.constants.Constants.*;
 
 public class ChangeLanguageCommand implements Command {
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
         String language = request.getParameter(LANGUAGE);
         request.getSession().setAttribute(LANGUAGE, language);
         Map<String, Object> map = new HashMap<>();

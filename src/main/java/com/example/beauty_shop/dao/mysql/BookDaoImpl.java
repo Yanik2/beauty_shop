@@ -16,9 +16,9 @@ public class BookDaoImpl implements BookDao {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public Boolean insertAppointment(Long master_id, Long client_id, Long service_id, String time, String date) throws SQLException {
+    public Boolean insertAppointment(Long master_id, Long client_id, Long service_id, String time, String date) {
         Connection con = null;
-        int rowsUpdated;
+        int rowsUpdated = 0;
         try {
             con = DBManager.getConnection();
             con.setAutoCommit(false);
@@ -33,7 +33,6 @@ public class BookDaoImpl implements BookDao {
             con.commit();
         } catch (SQLException e) {
             logger.log(Level.ERROR, e);
-            throw e;
         } finally {
             DBManager.closeConnection(con);
         }

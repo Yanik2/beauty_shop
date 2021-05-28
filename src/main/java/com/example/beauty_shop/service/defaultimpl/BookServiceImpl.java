@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class BookServiceImpl implements BookService {
     private BookDaoImpl bookDao = new BookDaoImpl();
 
-    public boolean bookTime(Account master, Account client, String time, String date) throws SQLException {
+    public boolean bookTime(Account master, Account client, String time, String date) {
         Long master_id = master.getId();
         Long client_id = client.getId();
         Long service_id = master.getService().getId();

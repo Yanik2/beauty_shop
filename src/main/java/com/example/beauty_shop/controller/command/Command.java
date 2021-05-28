@@ -8,5 +8,5 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public interface Command {
-    Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException;
+    Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response);
 }

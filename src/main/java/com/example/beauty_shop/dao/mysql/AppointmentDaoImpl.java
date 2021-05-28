@@ -22,7 +22,7 @@ import static com.example.beauty_shop.constants.SQLConstants.*;
 public class AppointmentDaoImpl implements AppointmentDao {
     private static final Logger logger = LogManager.getLogger();
     @Override
-    public List<Appointment> getAppointments(String master, String date) throws SQLException {
+    public List<Appointment> getAppointments(String master, String date) {
         Connection con = null;
         List<Appointment> appointments = new ArrayList<>();
         try {
@@ -44,7 +44,6 @@ public class AppointmentDaoImpl implements AppointmentDao {
             }
         } catch (SQLException e) {
             logger.log(Level.ERROR, e);
-            throw e;
         }
         finally {
             DBManager.closeConnection(con);
@@ -53,7 +52,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
     }
 
     @Override
-    public Map<Long, String> getTimeslots() throws SQLException {
+    public Map<Long, String> getTimeslots() {
         Connection con = null;
         Map<Long, String> timeslots = new HashMap<>();
         try {
@@ -65,7 +64,6 @@ public class AppointmentDaoImpl implements AppointmentDao {
             }
         } catch (SQLException e) {
             logger.log(Level.ERROR, e);
-            throw e;
         } finally {
             DBManager.closeConnection(con);
         }
@@ -73,7 +71,7 @@ public class AppointmentDaoImpl implements AppointmentDao {
     }
 
     @Override
-    public Account getMaster(String name) throws SQLException {
+    public Account getMaster(String name) {
         Connection con = null;
         Account master = null;
         try {
@@ -96,7 +94,6 @@ public class AppointmentDaoImpl implements AppointmentDao {
             }
         } catch (SQLException e) {
             logger.log(Level.ERROR, e);
-            throw e;
         } finally {
             DBManager.closeConnection(con);
         }
@@ -104,9 +101,9 @@ public class AppointmentDaoImpl implements AppointmentDao {
     }
 
     @Override
-    public boolean markAsDoneAppointment(Long masterId, Long timeslotId, String date) throws SQLException {
+    public boolean markAsDoneAppointment(Long masterId, Long timeslotId, String date) {
         Connection con = null;
-        int rowsUpdated;
+        int rowsUpdated = 0;
         try {
             con = DBManager.getConnection();
             PreparedStatement updateStatement = con.prepareStatement(UPDATE_APPOINTMENT);
@@ -116,7 +113,6 @@ public class AppointmentDaoImpl implements AppointmentDao {
             rowsUpdated = updateStatement.executeUpdate();
         } catch (SQLException e) {
             logger.log(Level.ERROR, "AppointmentDao: ", e);
-            throw e;
         } finally {
             DBManager.closeConnection(con);
         }
@@ -124,10 +120,10 @@ public class AppointmentDaoImpl implements AppointmentDao {
     }
 
     @Override
-    public boolean updateAppointment(Long masterId, Long clientId, Long timeslotId, String date, String action) throws SQLException {
+    public boolean updateAppointment(Long masterId, Long clientId, Long timeslotId, String date, String action) {
         String query = getQuery(action);
         Connection con = null;
-        int rowsUpdated;
+        int rowsUpdated = 0;
         try {
             con = DBManager.getConnection();
             PreparedStatement updateSt = con.prepareStatement(query);
@@ -135,7 +131,6 @@ public class AppointmentDaoImpl implements AppointmentDao {
             rowsUpdated = updateSt.executeUpdate();
         } catch (SQLException e) {
             logger.log(Level.ERROR, "AppointmentDao: ", e);
-            throw e;
         } finally {
             DBManager.closeConnection(con);
         }
@@ -143,9 +138,9 @@ public class AppointmentDaoImpl implements AppointmentDao {
     }
 
     @Override
-    public boolean changeTimeslot(Long masterId, Long clientId, Long timeslotId, String date, String newTimeslot) throws SQLException {
+    public boolean changeTimeslot(Long masterId, Long clientId, Long timeslotId, String date, String newTimeslot) {
         Connection con = null;
-        int rowsUpdated;
+        int rowsUpdated = 0;
         try {
             con = DBManager.getConnection();
             PreparedStatement selectSt = con.prepareStatement(SELECT_ID_FROM_TIMESLOT);
@@ -156,7 +151,6 @@ public class AppointmentDaoImpl implements AppointmentDao {
             rowsUpdated = updateSt.executeUpdate();
         } catch (SQLException e) {
             logger.log(Level.ERROR, "AppointmentDao: ", e);
-            throw e;
         } finally {
             DBManager.closeConnection(con);
         }

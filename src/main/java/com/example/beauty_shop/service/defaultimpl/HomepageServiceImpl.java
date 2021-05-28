@@ -16,7 +16,7 @@ import static com.example.beauty_shop.constants.Constants.CATALOG;
 public class HomepageServiceImpl implements HomepageService {
     private TableDaoImpl tableDao = new TableDaoImpl();
 
-    public Map<String, Object> getPageFill(Account currentUser) throws SQLException {
+    public Map<String, Object> getPageFill(Account currentUser) {
         Map<String, Object> map = new HashMap<>();
         switch (currentUser.getRole()) {
             case CLIENT:

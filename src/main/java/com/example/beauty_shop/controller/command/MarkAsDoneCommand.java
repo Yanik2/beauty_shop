@@ -17,7 +17,7 @@ public class MarkAsDoneCommand implements Command {
     private AppointmentServiceImpl appointmentServiceImpl = new AppointmentServiceImpl();
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute(SHOWLINK, true);
         String timeslot = request.getParameter("timeslot_id");
         Long timeslotId = Long.parseLong(timeslot);

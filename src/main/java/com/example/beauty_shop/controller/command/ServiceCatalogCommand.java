@@ -17,7 +17,7 @@ public class ServiceCatalogCommand implements Command {
     private final CatalogServiceImpl catalogServiceImpl = new CatalogServiceImpl();
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
         String sortMethod = request.getParameter(SORT_METHOD);
         String filterMethod = request.getParameter(FILTER_METHOD);
         String filter = request.getParameter(FILTER);

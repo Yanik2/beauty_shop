@@ -20,7 +20,7 @@ public class AppointmentCommand implements Command {
     private final AppointmentServiceImpl appointmentServiceImpl = new AppointmentServiceImpl();
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().setAttribute(HIDEDATE, true);
         String master = request.getParameter(MASTER);
         String date = request.getParameter(APPOINTMENT_DATE);

@@ -18,7 +18,7 @@ public class TableDaoImpl implements TableDao {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public List<Account> getClientTable() throws SQLException {
+    public List<Account> getClientTable() {
         Connection con = null;
         List<Account> catalog = new ArrayList<>();
         try {
@@ -38,7 +38,6 @@ public class TableDaoImpl implements TableDao {
             }
         } catch (SQLException e) {
             logger.log(Level.ERROR,  e);
-            throw e;
         }
         finally {
             DBManager.closeConnection(con);
@@ -47,7 +46,7 @@ public class TableDaoImpl implements TableDao {
     }
 
     @Override
-    public ListWrapper getMasterTable(Account account, String date) throws SQLException {
+    public ListWrapper getMasterTable(Account account, String date) {
         ListWrapper wrapper = new ListWrapper();
         Connection con = null;
          try {
@@ -68,7 +67,6 @@ public class TableDaoImpl implements TableDao {
          } catch (SQLException e) {
              DBManager.rollback(con);
              logger.log(Level.ERROR, "TableDao: ", e);
-             throw e;
          } finally {
              DBManager.closeConnection(con);
          }

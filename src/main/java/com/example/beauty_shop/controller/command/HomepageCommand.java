@@ -16,7 +16,7 @@ public class HomepageCommand implements Command {
     private final HomepageServiceImpl homepageServiceImpl = new HomepageServiceImpl();
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
         Account currentUser = (Account) request.getSession().getAttribute(USER);
         Map<String, Object> catalog = homepageServiceImpl.getPageFill(currentUser);
         Map<String, Object> map = new HashMap<>();

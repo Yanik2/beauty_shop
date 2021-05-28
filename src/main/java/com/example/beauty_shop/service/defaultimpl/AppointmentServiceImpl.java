@@ -15,7 +15,7 @@ import static com.example.beauty_shop.constants.Constants.*;
 public class AppointmentServiceImpl implements AppointmentService {
     private AppointmentDaoImpl appointmentDao = new AppointmentDaoImpl();
 
-    public Map<String, Object> getAvailableTime(String master, String date) throws SQLException {
+    public Map<String, Object> getAvailableTime(String master, String date) {
         List<Appointment> appointments = appointmentDao.getAppointments(master, date);
         Map<Long, String> timeslots = appointmentDao.getTimeslots();
         Account masterAccount = appointmentDao.getMaster(master);
@@ -28,15 +28,15 @@ public class AppointmentServiceImpl implements AppointmentService {
         return map;
     }
 
-    public boolean markAsDone(Long masterId, Long timeslotId, String date) throws SQLException {
+    public boolean markAsDone(Long masterId, Long timeslotId, String date)  {
         return appointmentDao.markAsDoneAppointment(masterId, timeslotId, date);
     }
 
-    public boolean updateAppointment(Long masterId, Long clientId, Long timeslotId, String date, String action) throws SQLException {
+    public boolean updateAppointment(Long masterId, Long clientId, Long timeslotId, String date, String action)  {
         return appointmentDao.updateAppointment(masterId, clientId, timeslotId, date, action);
     }
 
-    public boolean changeTimeslot(Long masterId, Long clientId, Long timeslotId, String date, String newTimeslot) throws SQLException, NamingException {
+    public boolean changeTimeslot(Long masterId, Long clientId, Long timeslotId, String date, String newTimeslot)  {
         return appointmentDao.changeTimeslot(masterId, clientId, timeslotId, date, newTimeslot);
     }
 

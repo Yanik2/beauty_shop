@@ -16,7 +16,7 @@ public class UpdateAppointmentCommand implements Command {
     private final AppointmentServiceImpl appointmentServiceImpl = new AppointmentServiceImpl();
 
     @Override
-    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
+    public Map<String, Object> execute(HttpServletRequest request, HttpServletResponse response) {
         Long masterId = Long.parseLong(request.getParameter(MASTERID));
         Long clientId = Long.parseLong(request.getParameter(CLIENTID));
         Long timeslotId = Long.parseLong(request.getParameter(TIMESLOTID));
